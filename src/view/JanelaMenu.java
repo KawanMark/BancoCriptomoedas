@@ -20,6 +20,10 @@ public class JanelaMenu extends javax.swing.JFrame {
         initComponents();
         c = new Controller(this);
     }
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,6 +71,11 @@ public class JanelaMenu extends javax.swing.JFrame {
         btDepositarReais.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btDepositarReais.setText("Depositar Reais na carteira de investimentos");
         btDepositarReais.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btDepositarReais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDepositarReaisActionPerformed(evt);
+            }
+        });
 
         btSacarReais.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btSacarReais.setText("Sacar Reais da carteira de investimento");
@@ -149,11 +158,12 @@ public class JanelaMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btConsultarSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarSaldoActionPerformed
-        // TODO add your handling code here:
+        c.abrirJanelaSaldo();
+        
     }//GEN-LAST:event_btConsultarSaldoActionPerformed
 
     private void btSacarReaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSacarReaisActionPerformed
-        // TODO add your handling code here:
+        c.abrirJanelaSaque();
     }//GEN-LAST:event_btSacarReaisActionPerformed
 
     private void btConsultarExtratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarExtratoActionPerformed
@@ -167,6 +177,10 @@ public class JanelaMenu extends javax.swing.JFrame {
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
         c.fecharJanela();
     }//GEN-LAST:event_btSairActionPerformed
+
+    private void btDepositarReaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDepositarReaisActionPerformed
+        c.abrirJanelaDeposito();
+    }//GEN-LAST:event_btDepositarReaisActionPerformed
 
 
     Controller c;

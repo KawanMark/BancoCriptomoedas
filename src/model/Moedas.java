@@ -10,4 +10,17 @@ package model;
  */
 public class Moedas {
      private double fracao, cotacao;
+     private double saldo;
+
+    public Moedas(double saldoInicial) {
+        this.saldo = saldoInicial;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
 }

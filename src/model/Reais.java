@@ -10,6 +10,10 @@ package model;
  */
 public class Reais extends Moedas implements Tarifas {
     
+    public Reais(double saldoReais) {
+        super(saldoReais);
+    }
+
     @Override
     public double calcularTaxaCompra(double valor) {
         return 0; // Sem taxa
@@ -19,4 +23,5 @@ public class Reais extends Moedas implements Tarifas {
     public double calcularTaxaVenda(double valor) {
         return 0; // Sem taxa
     }
+
 }

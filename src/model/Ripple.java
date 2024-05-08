@@ -9,16 +9,19 @@ package model;
  * @author kawan
  */
 public class Ripple extends Moedas implements Tarifas {
-     private static final double TAXA_COMPRA = 0.01; // 1%
-    private static final double TAXA_VENDA = 0.01; // 1%
+    public Ripple(double saldoRipple) {
+        super(saldoRipple);
+    }
 
     @Override
     public double calcularTaxaCompra(double valor) {
-        return valor * TAXA_COMPRA;
+        // Lógica para calcular a taxa de compra de Ripple
+        return 0;
     }
 
     @Override
     public double calcularTaxaVenda(double valor) {
-        return valor * TAXA_VENDA;
+        // Lógica para calcular a taxa de venda de Ripple
+        return 0;
     }
 }

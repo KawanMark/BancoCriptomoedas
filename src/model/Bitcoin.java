@@ -10,17 +10,20 @@ package model;
  */
 public class Bitcoin extends Moedas implements Tarifas {
    
-    private static final double taxa_compra = 0.02; 
-    private static final double taxa_venda = 0.03; 
+    public Bitcoin(double saldoBitcoin) {
+        super(saldoBitcoin);
+    }
 
     @Override
     public double calcularTaxaCompra(double valor) {
-        return valor * taxa_compra;
+        // Lógica para calcular a taxa de compra de Bitcoin
+        return 0;
     }
 
     @Override
     public double calcularTaxaVenda(double valor) {
-        return valor * taxa_venda;
+        // Lógica para calcular a taxa de venda de Bitcoin
+        return 0;
     }
 
 }

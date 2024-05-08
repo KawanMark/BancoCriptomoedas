@@ -9,16 +9,19 @@ package model;
  * @author kawan
  */
 public class Ethereum extends Moedas implements Tarifas{
-    private static final double taxa_compra = 0.01; 
-    private static final double taxa_venda = 0.02; 
+  public Ethereum(double saldoEthereum) {
+        super(saldoEthereum);
+    }
 
     @Override
     public double calcularTaxaCompra(double valor) {
-        return valor * taxa_compra;
+        // Lógica para calcular a taxa de compra de Ethereum
+        return 0;
     }
 
     @Override
     public double calcularTaxaVenda(double valor) {
-        return valor * taxa_venda;
+        // Lógica para calcular a taxa de venda de Ethereum
+        return 0;
     }
 }

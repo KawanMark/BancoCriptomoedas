@@ -11,55 +11,42 @@ import view.JanelaMenu;
  * @author kawan
  */
 public class Cliente {
+     private String nome;
+    private String cpf;
+    private String senha;
     private Carteira carteira;
-    private String nome;
-    private long cpf, senha;
-    
-    public Cliente(Long cpf) {
+
+    public Cliente(String nome, String cpf, String senha, double saldoReais, double saldoEthereum, double saldoRipple, double saldoBitcoin) {
+        this.nome = nome;
         this.cpf = cpf;
-        carteira = new Carteira();
+        this.senha = senha;
+        this.carteira = new Carteira(saldoReais, saldoEthereum, saldoRipple, saldoBitcoin);
     }
 
     public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(long cpf) {
-        this.cpf = cpf;
-    }
-
-    public long getSenha() {
+    public String getSenha() {
         return senha;
     }
 
-    public void setSenha(long senha) {
-        this.senha = senha;
-    }
-
-    public Cliente(String nome, long cpf, long senha) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.senha = senha;
-    }
-    
-    public Cliente(){
- 
+    public Carteira getCarteira() {
+        return carteira;
     }
 
     @Override
     public String toString() {
-        return "Cliente{" + "nome=" + nome + ", cpf=" + cpf + ", senha=" + senha + '}';
+        return "Cliente{" +
+                "nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", senha='" + senha + '\'' +
+                '}';
     }
-    
-    
     
     public void showWindow(JanelaMenu j1){
         j1.setVisible(true);

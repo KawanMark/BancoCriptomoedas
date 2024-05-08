@@ -8,35 +8,50 @@ package model;
  *
  * @author kawan
  */
-public class Carteira {
-    private Moedas reais,ethereum,ripple,bitcoin;
+public class Carteira  {
+   private Moedas reais;
+    private Moedas ethereum;
+    private Moedas ripple;
+    private Moedas bitcoin;
 
-    public Carteira() {
-        reais = new Reais();
-        ethereum = new Ethereum();
-        ripple = new Ripple();
-        bitcoin = new Bitcoin();
-        
- 
-        
+    public Carteira(double saldoReais, double saldoEthereum, double saldoRipple, double saldoBitcoin) {
+        reais = new Reais(saldoReais);
+        ethereum = new Ethereum(saldoEthereum);
+        ripple = new Ripple(saldoRipple);
+        bitcoin = new Bitcoin(saldoBitcoin);
     }
-    
-      
-//    public double consultarSaldoReais() {
-//        return reais.getSaldo();
-//    }
-//
-//    public double consultarSaldoEthereum() {
-//        return ethereum.getSaldo();
-//    }
-//
-//    public double consultarSaldoRipple() {
-//        return ripple.getSaldo();
-//    }
-//
-//    public double consultarSaldoBitcoin() {
-//        return bitcoin.getSaldo();
-//    }
+
+    public double getSaldoReais() {
+        return reais.getSaldo();
+    }
+
+    public void setSaldoReais(double saldoReais) {
+        reais.setSaldo(saldoReais);
+    }
+
+    public double getSaldoEthereum() {
+        return ethereum.getSaldo();
+    }
+
+    public void setSaldoEthereum(double saldoEthereum) {
+        ethereum.setSaldo(saldoEthereum);
+    }
+
+    public double getSaldoRipple() {
+        return ripple.getSaldo();
+    }
+
+    public void setSaldoRipple(double saldoRipple) {
+        ripple.setSaldo(saldoRipple);
+    }
+
+    public double getSaldoBitcoin() {
+        return bitcoin.getSaldo();
+    }
+
+    public void setSaldoBitcoin(double saldoBitcoin) {
+        bitcoin.setSaldo(saldoBitcoin);
+    }
 }
     
 
