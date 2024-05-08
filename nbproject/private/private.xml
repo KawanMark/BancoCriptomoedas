@@ -3,10 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Moedas.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Investidor.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/DAO/ClienteDAO.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/DAO/Conexao.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaLogin.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Bitcoin.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaSaldo.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/banco/Banco.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Carteira.java</file>
             <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Cliente.java</file>
             <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/controller/Controller.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaLogin.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/ConsultarSaldoController.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Ethereum.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Ripple.java</file>
             <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaMenu.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Reais.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Tarifas.java</file>
         </group>
     </open-files>
 </project-private>

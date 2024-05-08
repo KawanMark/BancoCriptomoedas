@@ -17,6 +17,26 @@ public class Carteira {
         ripple = new Ripple();
         bitcoin = new Bitcoin();
         
+ 
+        
     }
     
+      
+//    public double consultarSaldoReais() {
+//        return reais.getSaldo();
+//    }
+//
+//    public double consultarSaldoEthereum() {
+//        return ethereum.getSaldo();
+//    }
+//
+//    public double consultarSaldoRipple() {
+//        return ripple.getSaldo();
+//    }
+//
+//    public double consultarSaldoBitcoin() {
+//        return bitcoin.getSaldo();
+//    }
 }
+    
+

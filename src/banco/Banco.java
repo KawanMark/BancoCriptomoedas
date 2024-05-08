@@ -4,6 +4,7 @@
  */
 package banco;
 
+import java.sql.SQLException;
 import view.JanelaLogin;
 
 /**
@@ -15,7 +16,7 @@ public class Banco {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
        JanelaLogin J = new JanelaLogin();
        J.setVisible(true);
     }

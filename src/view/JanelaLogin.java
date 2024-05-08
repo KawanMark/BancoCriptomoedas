@@ -5,6 +5,7 @@
 package view;
 
 import controller.Controller;
+import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -18,7 +19,7 @@ public class JanelaLogin extends javax.swing.JFrame {
     /**
      * Creates new form JanelaLogin
      */
-    public JanelaLogin() {
+    public JanelaLogin() throws SQLException {
         initComponents();
         c = new Controller(this);
     }
@@ -128,6 +129,12 @@ public class JanelaLogin extends javax.swing.JFrame {
             }
         });
 
+        txtSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSenhaActionPerformed(evt);
+            }
+        });
+
         btLogar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btLogar.setText("Entrar");
         btLogar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -189,8 +196,13 @@ public class JanelaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCPFActionPerformed
 
     private void btLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogarActionPerformed
-        c.entrar();
+
+        c.loginCliente();
     }//GEN-LAST:event_btLogarActionPerformed
+
+    private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSenhaActionPerformed
 
     /**
      * @param args the command line arguments

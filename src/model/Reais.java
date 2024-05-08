@@ -10,4 +10,13 @@ package model;
  */
 public class Reais extends Moedas implements Tarifas {
     
+    @Override
+    public double calcularTaxaCompra(double valor) {
+        return 0; // Sem taxa
+    }
+
+    @Override
+    public double calcularTaxaVenda(double valor) {
+        return 0; // Sem taxa
+    }
 }
