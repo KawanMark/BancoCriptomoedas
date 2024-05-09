@@ -30,11 +30,10 @@ public class JanelaSacar extends javax.swing.JFrame {
     /**
      * Creates new form JanelaSacar
      */
-    public JanelaSacar() {
-     
-        initComponents();
-    }
-    
+    public JanelaSacar(Connection conn) {
+       c = new ControllerSacar(conn, this);
+       initComponents();
+   }
     
     public void atualizarSaldoAtual(double saldoAtualizado) {
         lblSacar.setText("Saldo atual: R$ " + saldoAtualizado);
@@ -176,8 +175,10 @@ public class JanelaSacar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSacarActionPerformed
-
-        c.abrirSaque();
+    double valorSaque = Double.parseDouble(txtSacar.getText());
+        
+        // Chame o método realizarSaque do controllerSacar com o valor a ser sacado
+        c.realizarSaque(valorSaque);
     }//GEN-LAST:event_btSacarActionPerformed
 
     /**

@@ -15,13 +15,13 @@ public class Ethereum extends Moedas implements Tarifas{
 
     @Override
     public double calcularTaxaCompra(double valor) {
-        // Lógica para calcular a taxa de compra de Ethereum
-        return 0;
+
+        return valor * 0.01; // 1% de taxa de compra
     }
 
     @Override
     public double calcularTaxaVenda(double valor) {
-        // Lógica para calcular a taxa de venda de Ethereum
-        return 0;
+
+        return valor * 0.02; // 2% de taxa de venda
     }
 }

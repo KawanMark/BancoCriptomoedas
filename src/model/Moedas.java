@@ -8,9 +8,9 @@ package model;
  *
  * @author kawan
  */
-public class Moedas {
-     private double fracao, cotacao;
-     private double saldo;
+
+public abstract class Moedas {
+    private double saldo;
 
     public Moedas(double saldoInicial) {
         this.saldo = saldoInicial;
@@ -23,4 +23,8 @@ public class Moedas {
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
+
+    public abstract double calcularTaxaCompra(double valor);
+
+    public abstract double calcularTaxaVenda(double valor);
 }

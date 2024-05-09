@@ -8,6 +8,7 @@ package model;
  *
  * @author kawan
  */
+
 public class Bitcoin extends Moedas implements Tarifas {
    
     public Bitcoin(double saldoBitcoin) {
@@ -16,14 +17,13 @@ public class Bitcoin extends Moedas implements Tarifas {
 
     @Override
     public double calcularTaxaCompra(double valor) {
-        // Lógica para calcular a taxa de compra de Bitcoin
-        return 0;
+
+        return valor * 0.02; // 2% de taxa de compra
     }
 
     @Override
     public double calcularTaxaVenda(double valor) {
-        // Lógica para calcular a taxa de venda de Bitcoin
-        return 0;
-    }
 
+        return valor * 0.03; // 3% de taxa de venda
+    }
 }

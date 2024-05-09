@@ -14,7 +14,7 @@ public class OperacoesDAO {
     }
 
    public boolean registrarOperacao(String cpfCliente, String tipoOperacao, String moedaOperacao, double valorOperacao, double saldoAtual) {
-        String sql = "INSERT INTO cliente (cpf, data_operacao, tipo_operacao, moeda_operacao, valor_operacao, saldo_atual_reais" + moedaOperacao.toLowerCase() + ") VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente (cpf, data_operacao, tipo_operacao, moeda_operacao, valor_operacao, saldo_reais" + moedaOperacao.toLowerCase() + ") VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(1, cpfCliente);

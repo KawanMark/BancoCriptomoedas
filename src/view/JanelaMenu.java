@@ -4,8 +4,11 @@
  */
 package view;
 
+import DAO.Conexao;
 import controller.Controller;
+import controller.ControllerSacar;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,6 +22,7 @@ public class JanelaMenu extends javax.swing.JFrame {
     public JanelaMenu() throws SQLException {
         initComponents();
         c = new Controller(this);
+    
     }
     
     
@@ -102,6 +106,11 @@ public class JanelaMenu extends javax.swing.JFrame {
         btCotacoes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btCotacoes.setText("Atualizar cotações das Criptomoedas");
         btCotacoes.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btCotacoes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCotacoesActionPerformed(evt);
+            }
+        });
 
         btSair.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btSair.setText("Sair");
@@ -171,7 +180,11 @@ public class JanelaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btConsultarExtratoActionPerformed
 
     private void btComprarCriptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btComprarCriptoActionPerformed
-        // TODO add your handling code here:
+        String cpf = JOptionPane.showInputDialog(this, "Digite seu CPF:");
+        String senha = JOptionPane.showInputDialog(this, "Digite sua senha:");
+        
+        // Chamar o método para abrir a janela de compra de criptomoedas, passando o CPF e a senha
+        c.abrirJanelaComprarCripto(cpf, senha);
     }//GEN-LAST:event_btComprarCriptoActionPerformed
 
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
@@ -182,8 +195,13 @@ public class JanelaMenu extends javax.swing.JFrame {
         c.abrirJanelaDeposito();
     }//GEN-LAST:event_btDepositarReaisActionPerformed
 
+    private void btCotacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCotacoesActionPerformed
+        c.abrirJanelaCotacao();
+    }//GEN-LAST:event_btCotacoesActionPerformed
+
 
     Controller c;
+    ControllerSacar c1;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btComprarCripto;
     private javax.swing.JButton btConsultarExtrato;

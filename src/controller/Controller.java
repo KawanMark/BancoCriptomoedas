@@ -15,6 +15,12 @@ import view.JanelaLogin;
 import view.JanelaMenu;
 import view.JanelaSacar;
 import view.JanelaSaldo;
+import controller.ControllerSacar;
+import model.Carteira;
+import model.Cotacao;
+import static model.Cotacao.obterCotacaoAtual;
+import view.JanelaComprarCripto;
+import view.JanelaCotacao;
 
 /**
  *
@@ -26,12 +32,16 @@ public class Controller {
     private JanelaMenu menu;
     private JanelaSaldo saldo;
     private JanelaSacar sacar;
+     private ControllerSacar controllerSacar;
+     
 
     public Controller(JanelaLogin login) throws SQLException {
         this.login = login;
         this.clienteDAO = new ClienteDAO(Conexao.getConnection());
         saldo = null;
     }
+    
+    
     
      public Controller(JanelaMenu menu) throws SQLException {
         this.menu = menu;
@@ -122,36 +132,66 @@ public void abrirJanelaDeposito() {
     }
 }
 
-public class ControllerSacar {
-    private ClienteDAO clienteDAO;
-    private JanelaSacar janelaSacar;
-    
-     public ControllerSacar(Connection conn, JanelaSacar janelaSacar) {
-        this.clienteDAO = new ClienteDAO(conn);
-        this.janelaSacar = janelaSacar;
-    }
-    
+
     // Outros métodos...
     
-public void abrirJanelaSaque() {
-    try {
-        // Obtenha a conexão usando a classe Conexao
-        Connection conn = Conexao.getConnection();
+  public void abrirJanelaSaque() {
+        if (controllerSacar == null) {
+            // Se a instância de ControllerSacar ainda não foi criada, você pode criar aqui
+            try {
+                // Obtenha a conexão usando a classe Conexao
+                Connection conn = Conexao.getConnection();
 
-        // Crie a janela de saque e o controlador de saque
-        JanelaSacar janelaSacar = new JanelaSacar();
-        ControllerSacar controllerSacar = new ControllerSacar(conn, janelaSacar);
+                // Crie a janela de saque
+                JanelaSacar janelaSacar = new JanelaSacar(conn);
 
-        // Exiba a janela de saque
-        janelaSacar.setVisible(true);
-    } catch (SQLException e) {
-        e.printStackTrace();
-        // Trate o erro de conexão com o banco de dados adequadamente
+                // Crie a instância do ControllerSacar
+                controllerSacar = new ControllerSacar(conn, janelaSacar);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Trate o erro de conexão com o banco de dados adequadamente
+            }
+        }
+
+        // Agora, você pode chamar o método abrirSaque do ControllerSacar
+        controllerSacar.abrirSaque();
+    }
+  
+public void abrirJanelaComprarCripto(String cpf, String senha) {
+    boolean credenciaisValidas = verificarCredenciais(cpf, senha);
+
+    if (credenciaisValidas) {
+        try {
+              Cotacao cotacao = obterCotacaoAtual();
+            // Retrieve wallet balances from the database using ClienteDAO
+            double saldoBitcoin = clienteDAO.consultarSaldo(cpf, "Bitcoin");
+            double saldoEthereum = clienteDAO.consultarSaldo(cpf, "Ethereum");
+            double saldoRipple = clienteDAO.consultarSaldo(cpf, "Ripple");
+            double saldoReais = clienteDAO.consultarSaldo(cpf, "Reais");
+
+            // Create an instance of the Carteira class with the balances retrieved from the database
+            Carteira carteira = new Carteira(saldoBitcoin, saldoEthereum, saldoRipple, saldoReais);
+
+            // Create an instance of the cryptocurrency purchase window, passing the connection, wallet, CPF, and password
+            JanelaComprarCripto janelaComprarCripto = new JanelaComprarCripto(Conexao.getConnection(), carteira, cotacao);
+
+            // Display the window
+            janelaComprarCripto.setVisible(true);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error retrieving wallet balances from the database.");
+            e.printStackTrace();
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "Invalid CPF or password. Please try again.");
     }
 }
 
+    public void abrirJanelaCotacao() {
+        JanelaCotacao janelaCotacao = new JanelaCotacao();
+        janelaCotacao.setVisible(true);
+    }
+
+
 }
-}
-    
     
 

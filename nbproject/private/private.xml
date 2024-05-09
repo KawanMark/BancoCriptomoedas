@@ -12,19 +12,16 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/DAO/OperacoesDAO.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/DAO/ClienteDAO.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/DAO/Conexao.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaSacar.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaLogin.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaExtrato.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaCotacoes.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/controller/ControllerDepositar.java</file>
             <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaComprarCripto.java</file>
             <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/controller/Controller.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaDepositar.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/DAO/OperacoesDAO.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/controller/ControllerCriptomoeda.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/DAO/ClienteDAO.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/controller/ControllerSaldo.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaCotacao.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/Ripple.java</file>
             <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/controller/ControllerSacar.java</file>
-            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/view/JanelaMenu.java</file>
+            <file>file:/C:/Users/kawan/Documents/NetBeansProjects/Banco/src/model/CompraInfo.java</file>
         </group>
     </open-files>
 </project-private>

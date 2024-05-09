@@ -20,6 +20,9 @@ public class Carteira  {
         ripple = new Ripple(saldoRipple);
         bitcoin = new Bitcoin(saldoBitcoin);
     }
+    
+
+
 
     public double getSaldoReais() {
         return reais.getSaldo();
@@ -52,6 +55,53 @@ public class Carteira  {
     public void setSaldoBitcoin(double saldoBitcoin) {
         bitcoin.setSaldo(saldoBitcoin);
     }
+    
+        public double getSaldo(String moeda) {
+            switch (moeda.toLowerCase()) {
+                case "reais":
+                    return reais.getSaldo();
+                case "ethereum":
+                    return ethereum.getSaldo();
+                case "ripple":
+                    return ripple.getSaldo();
+                case "bitcoin":
+                    return bitcoin.getSaldo();
+                default:
+                    throw new IllegalArgumentException("Moeda não reconhecida: " + moeda);
+            }
+    }
+
+    public void setSaldo(String moeda, double saldo) {
+        switch (moeda.toLowerCase()) {
+            case "reais":
+                reais.setSaldo(saldo);
+                break;
+            case "ethereum":
+                ethereum.setSaldo(saldo);
+                break;
+            case "ripple":
+                ripple.setSaldo(saldo);
+                break;
+            case "bitcoin":
+                bitcoin.setSaldo(saldo);
+                break;
+            default:
+                throw new IllegalArgumentException("Moeda não reconhecida: " + moeda);
+        }
+    }
+    
+    public Bitcoin getBitcoin() {
+        return (Bitcoin) bitcoin;
+    }
+
+    public Ethereum getEthereum() {
+        return (Ethereum) ethereum;
+    }
+
+    public Ripple getRipple() {
+        return (Ripple) ripple;
 }
+}
+
     
 

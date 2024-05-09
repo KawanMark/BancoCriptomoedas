@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,22 +34,19 @@ public class ClienteDAO {
         return statement.executeQuery();
     }
     
-public double consultarSaldo(String cpf, String tipoMoeda) throws SQLException {
-    String sql = "SELECT saldo_" + tipoMoeda + " FROM cliente WHERE cpf = ?" ;
-    try (PreparedStatement statement = conn.prepareStatement(sql)) {
-        statement.setString(1, cpf);
-        try (ResultSet resultSet = statement.executeQuery()) {
-            if (resultSet.next()) {
-                return resultSet.getDouble("saldo_" + tipoMoeda);
-            } else {
-                return 0.0; // Ou outro valor padrão, se necessário
+  public double consultarSaldo(String cpf, String tipoMoeda) throws SQLException {
+        String sql = "SELECT saldo_" + tipoMoeda + " FROM cliente WHERE cpf = ?";
+        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setString(1, cpf);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getDouble("saldo_" + tipoMoeda);
+                } else {
+                    return 0.0; 
+                }
             }
         }
-    } catch (SQLException e) {
-        
-        throw e;
     }
-}
     
  public void atualizarSaldo(String cpfCliente, String tipoMoeda, double novoSaldo) throws SQLException {
     String sql = "UPDATE cliente SET saldo_" + tipoMoeda + " = ? WHERE cpf = ?";
@@ -79,6 +78,37 @@ public double consultarSaldo(String cpf, String tipoMoeda) throws SQLException {
         double saldoAtual = consultarSaldo(cpf, "Reais");
         atualizarSaldo(cpf, "Reais", saldoAtual + valor);
     }
+ 
+   public boolean registrarOperacao(String cpfCliente, String tipoOperacao, String moedaOperacao, double valorOperacao, double saldoAtual) {
+        String sql = "INSERT INTO cliente (cpf, data_operacao, tipo_operacao, moeda_operacao, valor_operacao, saldo_" + moedaOperacao.toLowerCase() + ") VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, cpfCliente);
+            statement.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            statement.setString(3, tipoOperacao);
+            statement.setString(4, moedaOperacao);
+            statement.setDouble(5, valorOperacao);
+            statement.setDouble(6, saldoAtual);
+            int rowsInserted = statement.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+   
+    public void adicionarSaldoCripto(String cpf, double quantidade, String moeda) {
+        String sql = "UPDATE cliente SET saldo_" + moeda.toLowerCase() + " = saldo_" + moeda.toLowerCase() + " + ? WHERE cpf = ?";
+        try {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setDouble(1, quantidade);
+            statement.setString(2, cpf);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao adicionar saldo ao banco de dados.");
+        }
+    }
+}
 
     
-}
