@@ -4,13 +4,18 @@
  */
 package view;
 
+import DAO.ClienteDAO;
 import static java.lang.Math.random;
+import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import javax.swing.JOptionPane;
 import model.Cotacao;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Map;
 
 /**
  *
@@ -18,12 +23,18 @@ import model.Cotacao;
  */
 public class JanelaCotacao extends javax.swing.JFrame {
      private Cotacao cotacao;
+     private ClienteDAO ClienteDAO;
+    private Connection conn;
     /**
      * Creates new form JanelaCotacao
      */
-    public JanelaCotacao() {
+    public JanelaCotacao() throws SQLException {
         initComponents();
-         this.cotacao = Cotacao.obterCotacaoAtual();
+        this.conn = DriverManager.getConnection(
+            "jdbc:postgresql://localhost:5432/cliente",
+            "postgres", "fei");
+        this.cotacao = Cotacao.obterCotacaoAtual(conn);
+        this.ClienteDAO = new ClienteDAO(conn);
     }
 
     /**
@@ -91,33 +102,45 @@ public class JanelaCotacao extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtualizarActionPerformed
+         try {
         atualizarCotacoes();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Erro ao atualizar cotações.");
+    }
     }//GEN-LAST:event_btAtualizarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    Random random = new Random();
-  private void atualizarCotacoes() {
-        // Obter a data e hora atual
-        LocalDateTime agora = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
-        DateTimeFormatter formatadorDataHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        String dataHoraAtual = agora.format(formatadorDataHora);
+private void atualizarCotacoes() throws SQLException {
+    // Obter a data e hora atual
+    LocalDateTime agora = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
+    DateTimeFormatter formatadorDataHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    String dataHoraAtual = agora.format(formatadorDataHora);
 
-        // Atualizar as cotações na classe Cotacao
-        cotacao.atualizarCotacoes();
+    // Atualizar as cotações na classe Cotacao
+    Map<String, Double> cotacoesAtualizadas = cotacao.atualizarCotacoes();
+    this.cotacao = Cotacao.obterCotacaoAtual(conn);
 
-        // Obter as cotações atualizadas
-        double cotacaoBitcoin = cotacao.getCotacao("Bitcoin");
-        double cotacaoEthereum = cotacao.getCotacao("Ethereum");
-        double cotacaoRipple = cotacao.getCotacao("Ripple");
+    // Obter as cotações atualizadas
+    double cotacaoBitcoin = cotacoesAtualizadas.get("bitcoin");
+    double cotacaoEthereum = cotacoesAtualizadas.get("ethereum");
+    double cotacaoRipple = cotacoesAtualizadas.get("ripple");
+    
+    ClienteDAO clienteDAO = new ClienteDAO(conn); 
+    clienteDAO.salvarCotacoes(cotacaoBitcoin, cotacaoEthereum, cotacaoRipple);
 
-        // Exibir as cotações na janela
-        lblCotacao.setText("Cotação Bitcoin: " + cotacaoBitcoin + "\n"
-                         + "Cotação Ethereum: " + cotacaoEthereum + "\n"
-                         + "Cotação Ripple: " + cotacaoRipple + "\n"
-                         + "Data e Hora da Atualização: " + dataHoraAtual);
-    }
+    String cotacaoBitcoinFormatada = String.format("%.2f", cotacaoBitcoin);
+    String cotacaoEthereumFormatada = String.format("%.2f", cotacaoEthereum);
+    String cotacaoRippleFormatada = String.format("%.2f", cotacaoRipple);
+
+    // Exiba as cotações formatadas
+    lblCotacao.setText("Cotação Bitcoin: " + cotacaoBitcoinFormatada + "\n"
+                     + "Cotação Ethereum: " + cotacaoEthereumFormatada + "\n"
+                     + "Cotação Ripple: " + cotacaoRippleFormatada + "\n"
+                     + "Data e Hora da Atualização: " + dataHoraAtual);
+}
 
 //private double gerarCotacaoAleatoria() {
 //    // Gerar um número aleatório entre -5% e +5% do valor atual da cotação
@@ -126,6 +149,11 @@ public class JanelaCotacao extends javax.swing.JFrame {
  //   double variacao = random.nextDouble() * variacaoMaxima * 2 - variacaoMaxima;
 //    return cotacaoAtual + variacao;
 //}
+   
+    
+                
+
+
    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

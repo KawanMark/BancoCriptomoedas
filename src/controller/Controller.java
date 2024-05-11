@@ -33,6 +33,8 @@ public class Controller {
     private JanelaSaldo saldo;
     private JanelaSacar sacar;
      private ControllerSacar controllerSacar;
+     private Connection conn;
+     private JanelaCotacao janelaCotacao;
      
 
     public Controller(JanelaLogin login) throws SQLException {
@@ -46,6 +48,8 @@ public class Controller {
      public Controller(JanelaMenu menu) throws SQLException {
         this.menu = menu;
         this.clienteDAO = new ClienteDAO(Conexao.getConnection());
+        this.janelaCotacao = janelaCotacao;
+        this.conn = conn;
     }
 
     public void loginCliente() {
@@ -162,7 +166,7 @@ public void abrirJanelaComprarCripto(String cpf, String senha) {
 
     if (credenciaisValidas) {
         try {
-              Cotacao cotacao = obterCotacaoAtual();
+              Cotacao cotacao = obterCotacaoAtual(conn);
             // Retrieve wallet balances from the database using ClienteDAO
             double saldoBitcoin = clienteDAO.consultarSaldo(cpf, "Bitcoin");
             double saldoEthereum = clienteDAO.consultarSaldo(cpf, "Ethereum");
@@ -186,7 +190,7 @@ public void abrirJanelaComprarCripto(String cpf, String senha) {
     }
 }
 
-    public void abrirJanelaCotacao() {
+    public void abrirJanelaCotacao() throws SQLException {
         JanelaCotacao janelaCotacao = new JanelaCotacao();
         janelaCotacao.setVisible(true);
     }

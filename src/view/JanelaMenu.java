@@ -196,7 +196,12 @@ public class JanelaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btDepositarReaisActionPerformed
 
     private void btCotacoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCotacoesActionPerformed
+         try {
         c.abrirJanelaCotacao();
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Erro ao abrir a janela de cotações.");
+    }
     }//GEN-LAST:event_btCotacoesActionPerformed
 
 

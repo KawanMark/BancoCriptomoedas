@@ -109,6 +109,18 @@ public class ClienteDAO {
             JOptionPane.showMessageDialog(null, "Erro ao adicionar saldo ao banco de dados.");
         }
     }
+    
+     public void salvarCotacoes(double cotacaoBitcoin, double cotacaoEthereum, double cotacaoRipple) {
+        String sql = "UPDATE cotacoes SET cotacoes_bitcoin = ?, cotacoes_ethereum = ?, cotacoes_ripple = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, cotacaoBitcoin);
+            stmt.setDouble(2, cotacaoEthereum);
+            stmt.setDouble(3, cotacaoRipple);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
     
