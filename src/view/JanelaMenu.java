@@ -9,17 +9,19 @@ import controller.Controller;
 import controller.ControllerSacar;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-
+import java.sql.Connection;
 /**
  *
  * @author kawan
  */
 public class JanelaMenu extends javax.swing.JFrame {
-
+     private Connection conn;
+     
     /**
      * Creates new form JanelaMenu
      */
-    public JanelaMenu() throws SQLException {
+    public JanelaMenu(Connection conn) throws SQLException {
+        this.conn = conn;
         initComponents();
         c = new Controller(this);
     

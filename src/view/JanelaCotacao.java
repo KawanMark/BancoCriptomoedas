@@ -120,8 +120,10 @@ private void atualizarCotacoes() throws SQLException {
     String dataHoraAtual = agora.format(formatadorDataHora);
 
     // Atualizar as cotações na classe Cotacao
-    Map<String, Double> cotacoesAtualizadas = cotacao.atualizarCotacoes();
+
     this.cotacao = Cotacao.obterCotacaoAtual(conn);
+    
+    Map<String, Double> cotacoesAtualizadas = cotacao.atualizarCotacoes();
 
     // Obter as cotações atualizadas
     double cotacaoBitcoin = cotacoesAtualizadas.get("bitcoin");

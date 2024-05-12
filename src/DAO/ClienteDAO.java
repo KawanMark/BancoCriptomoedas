@@ -97,18 +97,22 @@ public class ClienteDAO {
         }
     }
    
-    public void adicionarSaldoCripto(String cpf, double quantidade, String moeda) {
-        String sql = "UPDATE cliente SET saldo_" + moeda.toLowerCase() + " = saldo_" + moeda.toLowerCase() + " + ? WHERE cpf = ?";
-        try {
-            PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setDouble(1, quantidade);
-            statement.setString(2, cpf);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Erro ao adicionar saldo ao banco de dados.");
-        }
+  public void adicionarSaldoCripto(String cpf, double quantidade, String moeda) {
+    String nomeColuna = "saldo_" + moeda.toLowerCase(); // Obtém o nome da coluna com base na moeda
+
+    // Constrói a query SQL
+    String sql = "UPDATE cliente SET " + nomeColuna + " = ? WHERE cpf = ?";
+    try {
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setDouble(1, quantidade);
+        statement.setString(2, cpf);
+        statement.executeUpdate();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Erro ao adicionar saldo ao banco de dados.");
     }
+}
+
     
      public void salvarCotacoes(double cotacaoBitcoin, double cotacaoEthereum, double cotacaoRipple) {
         String sql = "UPDATE cotacoes SET cotacoes_bitcoin = ?, cotacoes_ethereum = ?, cotacoes_ripple = ?";

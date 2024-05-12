@@ -47,7 +47,6 @@ public class ControllerCriptomoeda {
     
 
 public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf) {
-
     // Antes de prosseguir com a compra, atualizamos o saldo da carteira
     atualizarSaldoDaCarteira(cpf);
 
@@ -70,14 +69,14 @@ public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf
             return null;
     }
     
-   // Obter a cotação atual da moeda
+    // Obter a cotação atual da moeda
     double cotacaoAtual = cotacao.getCotacao(moedaSelecionada);
 
-    // Calcular o valor total da compra (incluindo a taxa)
-    double valorTotalCompra = valor * cotacaoAtual + moeda.calcularTaxaCompra(valor);
+    // Calcular a quantidade de moeda a comprar
+    double quantidadeComprada = valor / cotacaoAtual;
 
     // Verificar se o saldo é suficiente para a compra
-    if (valorTotalCompra > carteira.getSaldoReais()) {
+    if (valor > carteira.getSaldoReais()) {
         JOptionPane.showMessageDialog(janela, "Saldo insuficiente para realizar a compra.");
         return null;
     } else {
@@ -87,13 +86,18 @@ public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf
         // Usar a data e hora formatada na mensagem de compra
         String mensagemCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\n", horarioBrasilia.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
 
-        // Atualizar o saldo na carteira
-        double novoSaldoReais = carteira.getSaldoReais() - valorTotalCompra;
+        // Atualizar o saldo de Reais na carteira
+        double novoSaldoReais = carteira.getSaldoReais() - valor;
         carteira.setSaldoReais(novoSaldoReais);
+
+        // Atualizar o saldo da moeda comprada na carteira
+        double saldoMoedaAtualizado = moeda.getSaldo() + quantidadeComprada;
+        moeda.setSaldo(saldoMoedaAtualizado);
 
         // Atualizar o saldo no banco de dados
         try {
-            clienteDAO.atualizarSaldo(cpf, "Reais", carteira.getSaldoReais());
+            clienteDAO.atualizarSaldo(cpf, "Reais", novoSaldoReais);
+            clienteDAO.adicionarSaldoCripto(cpf, quantidadeComprada, moedaSelecionada);
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(janela, "Erro ao atualizar saldo no banco de dados.");
@@ -101,22 +105,15 @@ public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf
         }
         
         // Registrar a operação no banco de dados
-        clienteDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorTotalCompra, carteira.getSaldoReais());
-
-        // Usar a cotação atual para calcular a quantidade de moeda comprada
-        double quantidadeComprada = valor / cotacaoAtual;
-
-        // Adicionar a quantidade de criptomoeda comprada ao banco de dados
-        clienteDAO.adicionarSaldoCripto(cpf, quantidadeComprada, moedaSelecionada);
+        clienteDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valor, novoSaldoReais);
 
         // Adicionar detalhes da compra ao lblComprar
-        String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %f\nCotação Atual: %.2f\nSaldo Atual: %.2f\nTaxa: %.2f\n",
+        String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f\nSaldo Atual: %.2f\n",
             horarioBrasilia.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")),
             moedaSelecionada,
             quantidadeComprada,
             cotacaoAtual,
-            carteira.getSaldoReais(),
-            moeda.calcularTaxaCompra(valor)
+            novoSaldoReais
         );
         janela.getLblComprar().append(detalhesCompra);
     }

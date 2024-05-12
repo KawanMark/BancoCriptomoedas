@@ -54,7 +54,6 @@ public Map<String, Double> atualizarCotacoes() {
         double novaCotacao = cotacaoAtual * (1 + variacao);
         // Atualiza a cotação da moeda com a nova cotação limitada entre 0 e o dobro do valor anterior
         cotacoes.put(moeda, Math.max(0, Math.min(novaCotacao, cotacaoAtual * 2)));
-        System.out.println("Cotação atualizada para " + moeda + ": " + cotacoes.get(moeda)); // Adicione esta linha
     }
 
     // Retorna as cotações atualizadas

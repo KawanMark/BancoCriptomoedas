@@ -39,6 +39,8 @@ public class Controller {
 
     public Controller(JanelaLogin login) throws SQLException {
         this.login = login;
+        this.conn = Conexao.getConnection();
+
         this.clienteDAO = new ClienteDAO(Conexao.getConnection());
         saldo = null;
     }
@@ -47,9 +49,11 @@ public class Controller {
     
      public Controller(JanelaMenu menu) throws SQLException {
         this.menu = menu;
+        this.conn = Conexao.getConnection();
         this.clienteDAO = new ClienteDAO(Conexao.getConnection());
         this.janelaCotacao = janelaCotacao;
-        this.conn = conn;
+        
+   
     }
 
     public void loginCliente() {
@@ -97,7 +101,7 @@ public class Controller {
 
     public void abrirJanelaMenu() throws SQLException {
         if (menu == null) {
-            menu = new JanelaMenu();
+            menu = new JanelaMenu(conn);
         }
         menu.setVisible(true);
         login.setVisible(false);
