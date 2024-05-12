@@ -19,7 +19,6 @@ public class ControllerCriptomoeda {
     private ClienteDAO clienteDAO;
     private Carteira carteira;
     private Cotacao cotacao;
-    
 
     public ControllerCriptomoeda(Connection conn, JanelaComprarCripto janela, Carteira carteira, Cotacao cotacao) {
         this.conn = conn;
@@ -41,87 +40,85 @@ public class ControllerCriptomoeda {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar saldo da carteira.");
         }
     }
-    
-    
-    
-    
 
-public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf) {
-    // Antes de prosseguir com a compra, atualizamos o saldo da carteira
-    atualizarSaldoDaCarteira(cpf);
+    public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf) {
+        // Antes de prosseguir com a compra, atualizamos o saldo da carteira
+        atualizarSaldoDaCarteira(cpf);
 
-    Moedas moeda;
+        Moedas moeda;
 
-    // Determinar qual moeda foi selecionada e instanciar o objeto correspondente
-    switch (moedaSelecionada) {
-        case "Bitcoin":
-            moeda = carteira.getBitcoin();
-            break;
-        case "Ethereum":
-            moeda = carteira.getEthereum();
-            break;
-        case "Ripple":
-            moeda = carteira.getRipple();
-            break;
-        default:
-            // Moeda não reconhecida
-            JOptionPane.showMessageDialog(janela, "Moeda selecionada não reconhecida.");
-            return null;
-    }
-    
-    // Obter a cotação atual da moeda
-    double cotacaoAtual = cotacao.getCotacao(moedaSelecionada);
-
-    // Calcular a quantidade de moeda a comprar
-    double quantidadeComprada = valor / cotacaoAtual;
-
-    // Verificar se o saldo é suficiente para a compra
-    if (valor > carteira.getSaldoReais()) {
-        JOptionPane.showMessageDialog(janela, "Saldo insuficiente para realizar a compra.");
-        return null;
-    } else {
-        ZoneId zonaBrasilia = ZoneId.of("America/Sao_Paulo");
-        LocalDateTime horarioBrasilia = LocalDateTime.now(zonaBrasilia);
-
-        // Usar a data e hora formatada na mensagem de compra
-        String mensagemCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\n", horarioBrasilia.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")));
-
-        // Atualizar o saldo de Reais na carteira
-        double novoSaldoReais = carteira.getSaldoReais() - valor;
-        carteira.setSaldoReais(novoSaldoReais);
-
-        // Atualizar o saldo da moeda comprada na carteira
-        double saldoMoedaAtualizado = moeda.getSaldo() + quantidadeComprada;
-        moeda.setSaldo(saldoMoedaAtualizado);
-
-        // Atualizar o saldo no banco de dados
-        try {
-            clienteDAO.atualizarSaldo(cpf, "Reais", novoSaldoReais);
-            clienteDAO.adicionarSaldoCripto(cpf, quantidadeComprada, moedaSelecionada);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(janela, "Erro ao atualizar saldo no banco de dados.");
-            return null;
+        // Determinar qual moeda foi selecionada e instanciar o objeto correspondente
+        switch (moedaSelecionada) {
+            case "Bitcoin":
+                moeda = carteira.getBitcoin();
+                break;
+            case "Ethereum":
+                moeda = carteira.getEthereum();
+                break;
+            case "Ripple":
+                moeda = carteira.getRipple();
+                break;
+            default:
+                // Moeda não reconhecida
+                JOptionPane.showMessageDialog(janela, "Moeda selecionada não reconhecida.");
+                return null;
         }
         
-        // Registrar a operação no banco de dados
-        clienteDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valor, novoSaldoReais);
+        // Obter a cotação atual da moeda
+        double cotacaoAtual = cotacao.getCotacao(moedaSelecionada);
 
-        // Adicionar detalhes da compra ao lblComprar
-        String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f\nSaldo Atual: %.2f\n",
-            horarioBrasilia.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")),
-            moedaSelecionada,
-            quantidadeComprada,
-            cotacaoAtual,
-            novoSaldoReais
-        );
-        janela.getLblComprar().append(detalhesCompra);
+        // Calcular a quantidade de moeda a comprar
+        double quantidadeComprada = valor / cotacaoAtual;
+
+        // Verificar se o saldo é suficiente para a compra
+        if (valor > carteira.getSaldoReais()) {
+            JOptionPane.showMessageDialog(janela, "Saldo insuficiente para realizar a compra.");
+            return null;
+        } else {
+            ZoneId zonaBrasilia = ZoneId.of("America/Sao_Paulo");
+            LocalDateTime horarioBrasilia = LocalDateTime.now(zonaBrasilia);
+
+            // Calcular a taxa de compra da moeda selecionada
+            double taxaCompra = moeda.calcularTaxaCompra(valor);
+
+            // Calcular o valor total da compra considerando a taxa de compra
+            double valorTotalCompra = valor + taxaCompra;
+
+            // Atualizar o saldo de Reais na carteira
+            double novoSaldoReais = carteira.getSaldoReais() - valor;
+            carteira.setSaldoReais(novoSaldoReais);
+
+            // Atualizar o saldo da moeda comprada na carteira
+            double saldoMoedaAtualizado = moeda.getSaldo() + quantidadeComprada;
+            moeda.setSaldo(saldoMoedaAtualizado);
+
+            // Atualizar o saldo no banco de dados
+            try {
+                clienteDAO.atualizarSaldo(cpf, "Reais", novoSaldoReais);
+                clienteDAO.adicionarSaldoCripto(cpf, quantidadeComprada, moedaSelecionada);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(janela, "Erro ao atualizar saldo no banco de dados.");
+                return null;
+            }
+            
+            // Registrar a operação no banco de dados
+            clienteDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valor, novoSaldoReais);
+
+            // Adicionar detalhes da compra ao lblComprar
+            String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f\nTaxa de Compra: %.2f\nValor Total: %.2f\nSaldo Atual: %.2f\n",
+                horarioBrasilia.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")),
+                moedaSelecionada,
+                quantidadeComprada,
+                cotacaoAtual,
+                taxaCompra,
+                valorTotalCompra,
+                novoSaldoReais
+            );
+            janela.getLblComprar().append(detalhesCompra);
+        }
+
+        // Retornar um objeto CompraInfo com as informações da compra
+        return new CompraInfo("Compra realizada com sucesso!", valor, moedaSelecionada);
     }
-
-    // Retornar um objeto CompraInfo com as informações da compra
-    return new CompraInfo("Compra realizada com sucesso!", valor, moedaSelecionada);
-}
-
-
-
 }

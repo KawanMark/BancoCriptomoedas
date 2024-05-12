@@ -287,16 +287,6 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
     // Calcula a quantidade de criptomoeda a comprar
     double quantidade = valorCompra / cotacaoAtual;
 
-    
-    //JOptionPane.showMessageDialog(this, 
-    //    String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f",
-    //        LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")),
-    //        moedaSelecionada,
-    //        quantidade,
-     //       cotacaoAtual));
-    
-
-
 
     // Chama o método do controller para comprar a moeda
     c.comprarMoeda(quantidade, moedaSelecionada,"54181947807");
