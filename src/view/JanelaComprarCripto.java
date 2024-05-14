@@ -165,6 +165,12 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel2.setText("Digite a quantidade que deseja comprar :");
 
+        txtComprar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtComprarActionPerformed(evt);
+            }
+        });
+
         btComprar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btComprar.setText("Comprar");
         btComprar.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -286,16 +292,25 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
 
     // Calcula a quantidade de criptomoeda a comprar
     double quantidade = valorCompra / cotacaoAtual;
+        System.out.println("-------------JANELA---------------------------");
+        System.out.println("JANELA QUANTIDADE" + quantidade);
+        System.out.println("VALOR DA COMPRAAA" + valorCompra) ;
+        System.out.println("COTACAO CADE" + cotacaoAtual);
+        
 
 
     // Chama o método do controller para comprar a moeda
-    c.comprarMoeda(quantidade, moedaSelecionada,"54181947807");
+    c.comprarMoeda(valorCompra, moedaSelecionada,"54181947807");
 
     }//GEN-LAST:event_btComprarActionPerformed
 
     private void rbBitcoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbBitcoinActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rbBitcoinActionPerformed
+
+    private void txtComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtComprarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtComprarActionPerformed
 
     /**
      * @param args the command line arguments

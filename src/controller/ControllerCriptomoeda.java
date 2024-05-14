@@ -1,6 +1,7 @@
 package controller;
 
 import DAO.ClienteDAO;
+import DAO.OperacoesDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -19,6 +20,8 @@ public class ControllerCriptomoeda {
     private ClienteDAO clienteDAO;
     private Carteira carteira;
     private Cotacao cotacao;
+    private OperacoesDAO operacoesDAO;
+    
     
 
     public ControllerCriptomoeda(Connection conn, JanelaComprarCripto janela, Carteira carteira, Cotacao cotacao) {
@@ -27,6 +30,7 @@ public class ControllerCriptomoeda {
         this.clienteDAO = new ClienteDAO(conn);
         this.carteira = carteira;
         this.cotacao = cotacao;
+        this.operacoesDAO = new OperacoesDAO(conn);
     }
 
     public void atualizarSaldoDaCarteira(String cpf) {
@@ -42,7 +46,7 @@ public class ControllerCriptomoeda {
         }
     }
     
-public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf) {
+public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, String cpf) {
     // Antes de prosseguir com a compra, atualizamos o saldo da carteira
     atualizarSaldoDaCarteira(cpf);
 
@@ -65,22 +69,29 @@ public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf
             return null;
     }
     
+
+    
     // Obter a cotação atual da moeda
     double cotacaoAtual = cotacao.getCotacao(moedaSelecionada);
 
     // Calcular a taxa de compra
-    double taxaCompra = moeda.calcularTaxaCompra(valor);
+    double taxaCompra = moeda.calcularTaxaCompra(valorCompra);
+    System.out.println("TAXA DA COMPRA ATUAL AQUI " + taxaCompra);
+    System.out.println("VALOR COMPRA CRIPTOCONTROLLER" + valorCompra);
 
     // Calcular a quantidade de moeda a comprar
-    double quantidadeComprada = (valor - taxaCompra) / cotacaoAtual;
+    double quantidadeComprada = (valorCompra - taxaCompra) / cotacaoAtual;
+    System.out.println("TQUANTIDADE TOTAL COMPRADA  AQUI " + quantidadeComprada);
+    
+    System.out.println("VALORRRR" + valorCompra);
 
     // Verificar se o saldo é suficiente para a compra
-    if (valor > carteira.getSaldoReais()) {
+    if (valorCompra > carteira.getSaldoReais()) {
         JOptionPane.showMessageDialog(janela, "Saldo insuficiente para realizar a compra.");
         return null;
     } else {
         // Atualize o saldo em reais e o saldo da criptomoeda
-        double novoSaldoReais = carteira.getSaldoReais() - valor;
+        double novoSaldoReais = carteira.getSaldoReais() - valorCompra;
         carteira.setSaldoReais(novoSaldoReais);
         double saldoMoedaAtualizado = moeda.getSaldo() + quantidadeComprada;
         moeda.setSaldo(saldoMoedaAtualizado);
@@ -96,7 +107,9 @@ public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf
         }
         
         // Registrar a operação no banco de dados
-        clienteDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valor, novoSaldoReais);
+        //clienteDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valor, novoSaldoReais);
+        operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorCompra, taxaCompra, novoSaldoReais);
+        
 
         // Adicionar detalhes da compra ao lblComprar
         String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f\nSaldo Atual: %.2f\n",
@@ -110,6 +123,6 @@ public CompraInfo comprarMoeda(double valor, String moedaSelecionada, String cpf
     }
 
     // Retornar um objeto CompraInfo com as informações da compra
-    return new CompraInfo("Compra realizada com sucesso!", valor, moedaSelecionada);
+    return new CompraInfo("Compra realizada com sucesso!", valorCompra, moedaSelecionada);
 }
 }
