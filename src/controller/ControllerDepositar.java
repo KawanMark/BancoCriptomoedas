@@ -23,10 +23,12 @@ public class ControllerDepositar {
 
       private final ClienteDAO clienteDAO;
     private final JanelaDepositar janelaDepositar;
+    private final OperacoesDAO operacoesDAO;
 
-    public ControllerDepositar(ClienteDAO clienteDAO, JanelaDepositar janelaDepositar) {
+    public ControllerDepositar(ClienteDAO clienteDAO, JanelaDepositar janelaDepositar, OperacoesDAO operacoesDAO) {
         this.clienteDAO = clienteDAO;
         this.janelaDepositar = janelaDepositar;
+        this.operacoesDAO = operacoesDAO;
     }
 
     public void realizarDeposito() {
@@ -63,6 +65,10 @@ public class ControllerDepositar {
             double saldoAntes = clienteDAO.consultarSaldo(cpf, "Reais");
             clienteDAO.depositar(cpf, valorDeposito);
             double saldoAtual = clienteDAO.consultarSaldo(cpf, "Reais");
+            double taxa = 0;
+
+            
+            operacoesDAO.registrarOperacao(cpf, "Depósito", "Reais", valorDeposito, taxa, saldoAtual);
 
             exibirInformacoesDeposito(saldoAntes, valorDeposito, saldoAtual);
         } catch (SQLException e) {

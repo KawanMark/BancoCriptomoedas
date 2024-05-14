@@ -5,6 +5,7 @@
 package view;
 
 import DAO.ClienteDAO;
+import DAO.OperacoesDAO;
 import controller.Controller;
 import controller.ControllerDepositar;
 import javax.swing.JButton;
@@ -30,7 +31,8 @@ public class JanelaDepositar extends javax.swing.JFrame {
     public JanelaDepositar(Connection conn) {
         initComponents();
         this.clienteDAO = new ClienteDAO(conn); // Adicione esta linha
-        this.c = new ControllerDepositar(clienteDAO, this);
+        OperacoesDAO operacoesDAO = new OperacoesDAO(conn); // Supondo que conn é sua conexão com o banco de dados
+        this.c = new ControllerDepositar(clienteDAO, this, operacoesDAO);
     }
     
 

@@ -144,19 +144,8 @@ private void atualizarCotacoes() throws SQLException {
                      + "Data e Hora da Atualização: " + dataHoraAtual);
 }
 
-//private double gerarCotacaoAleatoria() {
-//    // Gerar um número aleatório entre -5% e +5% do valor atual da cotação
- //   double cotacaoAtual = 1000.00; // Substitua pelo valor atual da cotação
-//    double variacaoMaxima = 0.05 * cotacaoAtual;
- //   double variacao = random.nextDouble() * variacaoMaxima * 2 - variacaoMaxima;
-//    return cotacaoAtual + variacao;
-//}
-   
-    
-                
 
 
-   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAtualizar;

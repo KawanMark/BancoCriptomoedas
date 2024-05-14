@@ -5,6 +5,7 @@
 package controller;
 import DAO.ClienteDAO;
 import DAO.Conexao;
+import DAO.OperacoesDAO;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -127,10 +128,13 @@ public void abrirJanelaDeposito() {
     try {
         // Obtenha a conexão usando a classe Conexao
         Connection conn = Conexao.getConnection();
+        
 
         // Crie a janela de depósito e o controlador de depósito
+   
         JanelaDepositar janelaDepositar = new JanelaDepositar(conn);
-        ControllerDepositar controllerDepositar = new ControllerDepositar(janelaDepositar.clienteDAO, janelaDepositar);
+        OperacoesDAO operacoesDAO = new OperacoesDAO(conn);
+        ControllerDepositar controllerDepositar = new ControllerDepositar(janelaDepositar.clienteDAO, janelaDepositar, operacoesDAO);
 
         // Exiba a janela de depósito
         janelaDepositar.setVisible(true);
@@ -198,8 +202,13 @@ public void abrirJanelaComprarCripto(String cpf, String senha) {
         JanelaCotacao janelaCotacao = new JanelaCotacao();
         janelaCotacao.setVisible(true);
     }
-
-
+    
+    
+    
+ 
 }
+
+
+
     
 

@@ -19,6 +19,10 @@ public class Cotacao {
 
     public Cotacao() {
         this.cotacoes = new HashMap<>();
+        
+         cotacoes.put("bitcoin", 150.0); 
+         cotacoes.put("ethereum", 50.0); 
+         cotacoes.put("ripple", 1.4); 
     }
 
     // Método para carregar as cotações do banco de dados
