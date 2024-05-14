@@ -104,6 +104,11 @@ public class JanelaMenu extends javax.swing.JFrame {
         btVenderCripto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btVenderCripto.setText("Vender Criptomoedas");
         btVenderCripto.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btVenderCripto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btVenderCriptoActionPerformed(evt);
+            }
+        });
 
         btCotacoes.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btCotacoes.setText("Atualizar cotações das Criptomoedas");
@@ -185,7 +190,6 @@ public class JanelaMenu extends javax.swing.JFrame {
         String cpf = JOptionPane.showInputDialog(this, "Digite seu CPF:");
         String senha = JOptionPane.showInputDialog(this, "Digite sua senha:");
         
-        // Chamar o método para abrir a janela de compra de criptomoedas, passando o CPF e a senha
         c.abrirJanelaComprarCripto(cpf, senha);
     }//GEN-LAST:event_btComprarCriptoActionPerformed
 
@@ -205,6 +209,13 @@ public class JanelaMenu extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Erro ao abrir a janela de cotações.");
     }
     }//GEN-LAST:event_btCotacoesActionPerformed
+
+    private void btVenderCriptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVenderCriptoActionPerformed
+         String cpf = JOptionPane.showInputDialog(this, "Digite seu CPF:");
+        String senha = JOptionPane.showInputDialog(this, "Digite sua senha:");
+        
+        c.abrirJanelaVenderCripto(cpf, senha);
+    }//GEN-LAST:event_btVenderCriptoActionPerformed
 
 
     Controller c;

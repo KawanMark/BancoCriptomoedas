@@ -76,14 +76,11 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
 
     // Calcular a taxa de compra
     double taxaCompra = moeda.calcularTaxaCompra(valorCompra);
-    System.out.println("TAXA DA COMPRA ATUAL AQUI " + taxaCompra);
-    System.out.println("VALOR COMPRA CRIPTOCONTROLLER" + valorCompra);
+   
 
     // Calcular a quantidade de moeda a comprar
     double quantidadeComprada = (valorCompra - taxaCompra) / cotacaoAtual;
-    System.out.println("TQUANTIDADE TOTAL COMPRADA  AQUI " + quantidadeComprada);
-    
-    System.out.println("VALORRRR" + valorCompra);
+ 
 
     // Verificar se o saldo é suficiente para a compra
     if (valorCompra > carteira.getSaldoReais()) {
@@ -108,7 +105,7 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
         
         // Registrar a operação no banco de dados
         //clienteDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valor, novoSaldoReais);
-        operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorCompra, taxaCompra, novoSaldoReais);
+        operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorCompra, taxaCompra, quantidadeComprada);
         
 
         // Adicionar detalhes da compra ao lblComprar

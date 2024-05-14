@@ -22,6 +22,7 @@ import model.Cotacao;
 import static model.Cotacao.obterCotacaoAtual;
 import view.JanelaComprarCripto;
 import view.JanelaCotacao;
+import view.JanelaVenderCripto;
 
 /**
  *
@@ -202,6 +203,38 @@ public void abrirJanelaComprarCripto(String cpf, String senha) {
         JanelaCotacao janelaCotacao = new JanelaCotacao();
         janelaCotacao.setVisible(true);
     }
+    
+    public void abrirJanelaVenderCripto(String cpf, String senha) {
+    boolean credenciaisValidas = verificarCredenciais(cpf, senha);
+
+    if (credenciaisValidas) {
+        try {
+            // Obter a cotação atual
+            Cotacao cotacao = obterCotacaoAtual(conn);
+            
+            // Obter os saldos das moedas e do saldo em reais do banco de dados usando o ClienteDAO
+            double saldoBitcoin = clienteDAO.consultarSaldo(cpf, "Bitcoin");
+            double saldoEthereum = clienteDAO.consultarSaldo(cpf, "Ethereum");
+            double saldoRipple = clienteDAO.consultarSaldo(cpf, "Ripple");
+            double saldoReais = clienteDAO.consultarSaldo(cpf, "Reais");
+
+            // Criar uma instância da classe Carteira com os saldos obtidos do banco de dados
+            Carteira carteira = new Carteira(saldoBitcoin, saldoEthereum, saldoRipple, saldoReais);
+
+            // Criar uma instância da janela de venda de criptomoedas, passando a conexão, a carteira e a cotação
+            JanelaVenderCripto janelaVenderCripto = new JanelaVenderCripto(Conexao.getConnection(), carteira, cotacao);
+
+            // Exibir a janela
+            janelaVenderCripto.setVisible(true);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao recuperar os saldos da carteira do banco de dados.");
+            e.printStackTrace();
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "CPF ou senha inválidos. Por favor, tente novamente.");
+    }
+}
+
     
     
     

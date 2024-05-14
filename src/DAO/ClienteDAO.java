@@ -130,6 +130,17 @@ public void adicionarSaldoCripto(String cpf, double quantidade, String moeda) {
             e.printStackTrace();
         }
     }
+     
+    public void removerSaldoCripto(String cpf, double quantidade, String moedaSelecionada) throws SQLException {
+        String nomeColuna = "saldo_" + moedaSelecionada.toLowerCase(); // 
+
+        String sql = "UPDATE cliente SET " + nomeColuna + " = " + nomeColuna + " - ? WHERE cpf = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setDouble(1, quantidade);
+        stmt.setString(2, cpf);
+        stmt.executeUpdate();
+    }
+
 }
 
     

@@ -222,7 +222,7 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
                                     .addComponent(rbBitcoin)
                                     .addComponent(rbRipple)
                                     .addComponent(rbEthereum))
-                                .addGap(0, 71, Short.MAX_VALUE)))))
+                                .addGap(0, 79, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
