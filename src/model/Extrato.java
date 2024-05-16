@@ -12,7 +12,6 @@ public class Extrato {
         this.cpf = cpf;
         this.operacoes = operacoes;
     }
-
     public String getNome() {
         return nome;
     }

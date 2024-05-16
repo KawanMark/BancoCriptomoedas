@@ -5,6 +5,7 @@
 package controller;
 
 import DAO.ClienteDAO;
+import DAO.OperacoesDAO;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -17,10 +18,12 @@ import view.JanelaSacar;
 public class ControllerSacar {
     private ClienteDAO clienteDAO;
     private JanelaSacar janelaSacar;
+    private Connection conn;
     
     public ControllerSacar(Connection conn, JanelaSacar janelaSacar) {
         this.clienteDAO = new ClienteDAO(conn);
         this.janelaSacar = janelaSacar;
+        this.conn = conn;
     }
       public void atualizarSaldoAtual(double saldoAtualizado) {
         janelaSacar.atualizarSaldoAtual(saldoAtualizado);
@@ -54,7 +57,7 @@ public class ControllerSacar {
 
 public void realizarSaque(double valorSaque) {
     try {
-        String cpf = "54181947807"; // Substitua pelo CPF do usuário logado
+        String cpf = "54181947807"; 
         
         double saldoAtual = clienteDAO.consultarSaldo(cpf, "Reais");
         
@@ -65,6 +68,9 @@ public void realizarSaque(double valorSaque) {
             clienteDAO.atualizarSaldo(cpf, "Reais", novoSaldo);
             janelaSacar.atualizarSaldoAtual(novoSaldo);
             JOptionPane.showMessageDialog(janelaSacar, "Saque realizado com sucesso!");
+            OperacoesDAO operacoesDAO = new OperacoesDAO(conn);
+             operacoesDAO.registrarOperacao(cpf, "Saque", "Reais", valorSaque, 0.0, saldoAtual);
+
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(janelaSacar, "Erro ao realizar saque. Por favor, tente novamente.");

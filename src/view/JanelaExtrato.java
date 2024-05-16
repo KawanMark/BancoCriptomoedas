@@ -4,24 +4,37 @@
  */
 package view;
 
+import DAO.Conexao;
+import DAO.OperacoesDAO;
+import controller.ControllerExtrato;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
+import model.Extrato;
+import java.sql.SQLException;
+import java.sql.Connection;
+import view.JanelaExtrato;
 /**
  *
  * @author kawan
  */
 public class JanelaExtrato extends javax.swing.JFrame {
-
+    private Extrato extrato;
+    private String cpfCliente;
+    private OperacoesDAO operacoesDAO;
+    private JanelaExtrato janelaExtrato;
     /**
      * Creates new form JanelaExtrato
      */
-    public JanelaExtrato() {
+     public JanelaExtrato(Extrato extrato, String cpfCliente) throws SQLException {
+        this.extrato = extrato;
+        this.cpfCliente = cpfCliente;
+        this.operacoesDAO = new OperacoesDAO(Conexao.getConnection());
+        this.c = new ControllerExtrato(this); // Passe a instância da janela para o controller
         initComponents();
     }
-
     public JButton getBtConsultarExtrato() {
         return btConsultarExtrato;
     }
@@ -119,7 +132,17 @@ public class JanelaExtrato extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btConsultarExtratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarExtratoActionPerformed
-        // TODO add your handling code here:
+         try {
+        // Realize a consulta ao banco de dados para obter o extrato
+        Extrato extrato = operacoesDAO.consultarExtrato(cpfCliente); // Substitua "cpfCliente" pelo CPF do cliente
+     
+        // Exiba o extrato chamando a função exibirExtrato
+        c.exibirExtrato(extrato);
+    } catch (SQLException e) {
+        // Trate o erro ao consultar o extrato
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Erro ao consultar extrato do cliente.");
+    }
     }//GEN-LAST:event_btConsultarExtratoActionPerformed
 
     /**
@@ -156,7 +179,7 @@ public class JanelaExtrato extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-
+    ControllerExtrato c;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btConsultarExtrato;
     private javax.swing.JLabel jLabel1;

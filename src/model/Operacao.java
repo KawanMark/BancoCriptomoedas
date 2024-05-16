@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.time.LocalDateTime;
 
-/**
- *
- * @author kawan
- */
 public class Operacao {
     private LocalDateTime dataHora;
     private double valor;
@@ -19,17 +11,19 @@ public class Operacao {
     private double saldoBitcoin;
     private double saldoEthereum;
     private double saldoRipple;
+    private double valorCripto;
+    private double valorReal;
 
-    public Operacao(LocalDateTime dataHora, double valor, String tipo, double taxa, double saldoReal, double saldoBitcoin, double saldoEthereum, double saldoRipple) {
-        this.dataHora = dataHora;
-        this.valor = valor;
-        this.tipo = tipo;
-        this.taxa = taxa;
-        this.saldoReal = saldoReal;
-        this.saldoBitcoin = saldoBitcoin;
-        this.saldoEthereum = saldoEthereum;
-        this.saldoRipple = saldoRipple;
-    }
+  public Operacao(LocalDateTime dataHora, double valor, String tipo, double taxa, double saldoReal, double saldoBitcoin, double saldoEthereum, double saldoRipple) {
+    this.dataHora = dataHora;
+    this.valor = valor;
+    this.tipo = tipo;
+    this.taxa = taxa;
+    this.saldoReal = saldoReal;
+    this.saldoBitcoin = saldoBitcoin;
+    this.saldoEthereum = saldoEthereum;
+    this.saldoRipple = saldoRipple;
+}
 
     public LocalDateTime getDataHora() {
         return dataHora;
@@ -61,5 +55,13 @@ public class Operacao {
 
     public double getSaldoRipple() {
         return saldoRipple;
+    }
+
+    public double getValorCripto() {
+        return valorCripto;
+    }
+
+    public double getValorReal() {
+        return valorReal;
     }
 }

@@ -183,7 +183,10 @@ public class JanelaMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_btSacarReaisActionPerformed
 
     private void btConsultarExtratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarExtratoActionPerformed
-        // TODO add your handling code here:
+        String cpf = JOptionPane.showInputDialog(this, "Digite seu CPF:");
+        String senha = JOptionPane.showInputDialog(this, "Digite sua senha:");
+        
+        c.abrirJanelaExtrato(cpf,senha);
     }//GEN-LAST:event_btConsultarExtratoActionPerformed
 
     private void btComprarCriptoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btComprarCriptoActionPerformed

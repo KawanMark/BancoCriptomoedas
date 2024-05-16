@@ -1,10 +1,17 @@
 package DAO;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import model.Extrato;
+import model.Operacao;
+import java.util.List;
+import java.sql.ResultSet;
+
 
 public class OperacoesDAO {
     private Connection conn;
@@ -34,5 +41,39 @@ public class OperacoesDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+
+
+ public Extrato consultarExtrato(String cpf) throws SQLException {
+        Extrato extrato = null;
+        List<Operacao> operacoes = new ArrayList<>();
+
+        String sql = "SELECT * FROM operacoes WHERE cpf_cliente = ?";
+        
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cpf);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    LocalDateTime dataHora = rs.getTimestamp("data_operacao").toLocalDateTime();
+                    double valor = rs.getDouble("valor_operacao");
+                    String tipo = rs.getString("tipo_operacao");
+                    double taxa = rs.getDouble("taxa");
+                    double saldoReal = rs.getDouble("saldo_atual_reais");
+                    double saldoBitcoin = rs.getDouble("saldo_atual_bitcoin");
+                    double saldoEthereum = rs.getDouble("saldo_atual_ethereum");
+                    double saldoRipple = rs.getDouble("saldo_atual_ripple");
+
+                    Operacao operacao = new Operacao(dataHora, valor, tipo, taxa, saldoReal, saldoBitcoin, saldoEthereum, saldoRipple);
+                    operacoes.add(operacao);
+                }
+            }
+        }
+
+ 
+        String nomeCliente = "Kawan Mark Geronimo da Silva";
+        extrato = new Extrato(nomeCliente, cpf, operacoes); 
+
+        return extrato;
     }
 }

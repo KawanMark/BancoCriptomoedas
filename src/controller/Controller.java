@@ -20,9 +20,12 @@ import controller.ControllerSacar;
 import model.Carteira;
 import model.Cotacao;
 import static model.Cotacao.obterCotacaoAtual;
+import model.Extrato;
 import view.JanelaComprarCripto;
 import view.JanelaCotacao;
 import view.JanelaVenderCripto;
+import DAO.OperacoesDAO;
+import view.JanelaExtrato;
 
 /**
  *
@@ -37,6 +40,7 @@ public class Controller {
      private ControllerSacar controllerSacar;
      private Connection conn;
      private JanelaCotacao janelaCotacao;
+     private OperacoesDAO operacoesDAO;
      
 
     public Controller(JanelaLogin login) throws SQLException {
@@ -44,6 +48,7 @@ public class Controller {
         this.conn = Conexao.getConnection();
 
         this.clienteDAO = new ClienteDAO(Conexao.getConnection());
+         this.operacoesDAO = new OperacoesDAO(Conexao.getConnection());
         saldo = null;
     }
     
@@ -54,6 +59,7 @@ public class Controller {
         this.conn = Conexao.getConnection();
         this.clienteDAO = new ClienteDAO(Conexao.getConnection());
         this.janelaCotacao = janelaCotacao;
+        this.operacoesDAO = new OperacoesDAO(Conexao.getConnection());
         
    
     }
@@ -233,15 +239,31 @@ public void abrirJanelaComprarCripto(String cpf, String senha) {
     } else {
         JOptionPane.showMessageDialog(null, "CPF ou senha inválidos. Por favor, tente novamente.");
     }
+  
+}
+    
+    public void abrirJanelaExtrato(String cpf, String senha) {
+    boolean credenciaisValidas = verificarCredenciais(cpf, senha);
+
+    if (credenciaisValidas) {
+        try {
+            // Consultar extrato do cliente
+            Extrato extrato = operacoesDAO.consultarExtrato(cpf);
+
+            // Criar uma instância da janela de extrato, passando o extrato como parâmetro
+            JanelaExtrato janelaExtrato = new JanelaExtrato(extrato, cpf);
+            
+            // Exibir a janela de extrato
+            janelaExtrato.setVisible(true);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao consultar extrato do cliente.");
+            e.printStackTrace();
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "CPF ou senha inválidos. Por favor, tente novamente.");
+    }
 }
 
-    
-    
-    
- 
+
 }
-
-
-
-    
 
