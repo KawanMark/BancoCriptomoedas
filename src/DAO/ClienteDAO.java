@@ -36,6 +36,7 @@ public class ClienteDAO {
     
   public double consultarSaldo(String cpf, String tipoMoeda) throws SQLException {
         String sql = "SELECT saldo_" + tipoMoeda + " FROM cliente WHERE cpf = ?";
+
         try (PreparedStatement statement = conn.prepareStatement(sql)) {
             statement.setString(1, cpf);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -50,6 +51,7 @@ public class ClienteDAO {
     
  public void atualizarSaldo(String cpfCliente, String tipoMoeda, double novoSaldo) throws SQLException {
     String sql = "UPDATE cliente SET saldo_" + tipoMoeda + " = ? WHERE cpf = ?";
+
     try (PreparedStatement statement = conn.prepareStatement(sql)) {
         // Define o novo saldo
         statement.setDouble(1, novoSaldo);
@@ -140,6 +142,46 @@ public void adicionarSaldoCripto(String cpf, double quantidade, String moeda) {
         stmt.setString(2, cpf);
         stmt.executeUpdate();
     }
+    
+    
+    public String obterCpfCliente() throws SQLException {
+    String sql = "SELECT cpf FROM cliente LIMIT 1"; // 
+    try (PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                return resultSet.getString("cpf");
+            } else {
+                throw new SQLException("Nenhum cliente encontrado no banco de dados.");
+            }
+        }
+    }
+}
+    
+    
+    
+      public boolean isCotacoesVazia() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM cotacoes";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count == 0;
+            } else {
+                throw new SQLException("Erro ao verificar se a tabela cotacoes está vazia.");
+            }
+        }
+    }
+
+    public void inserirCotacoesIniciais() throws SQLException {
+        String sql = "INSERT INTO cotacoes (cotacoes_bitcoin, cotacoes_ethereum, cotacoes_ripple) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, 150); 
+            stmt.setDouble(2, 50); 
+            stmt.setDouble(3, 1.4); 
+            stmt.executeUpdate();
+        }
+    }
+
 
 }
 

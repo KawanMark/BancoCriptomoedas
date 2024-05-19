@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class Operacao {
     private LocalDateTime dataHora;
     private double valor;
+     private double cotacao;
     private String tipo;
     private double taxa;
     private double saldoReal;
@@ -17,6 +18,7 @@ public class Operacao {
   public Operacao(LocalDateTime dataHora, double valor, String tipo, double taxa, double saldoReal, double saldoBitcoin, double saldoEthereum, double saldoRipple) {
     this.dataHora = dataHora;
     this.valor = valor;
+    this.cotacao = cotacao;
     this.tipo = tipo;
     this.taxa = taxa;
     this.saldoReal = saldoReal;
@@ -64,4 +66,14 @@ public class Operacao {
     public double getValorReal() {
         return valorReal;
     }
+
+    public double getCotacao() {
+        return cotacao;
+    }
+
+    public void setCotacao(double cotacao) {
+        this.cotacao = cotacao;
+    }
+    
+    
 }

@@ -57,6 +57,7 @@ public class OperacoesDAO {
                 while (rs.next()) {
                     LocalDateTime dataHora = rs.getTimestamp("data_operacao").toLocalDateTime();
                     double valor = rs.getDouble("valor_operacao");
+                    double cotacao = rs.getDouble("cotacao");
                     String tipo = rs.getString("tipo_operacao");
                     double taxa = rs.getDouble("taxa");
                     double saldoReal = rs.getDouble("saldo_atual_reais");
@@ -64,7 +65,7 @@ public class OperacoesDAO {
                     double saldoEthereum = rs.getDouble("saldo_atual_ethereum");
                     double saldoRipple = rs.getDouble("saldo_atual_ripple");
 
-                    Operacao operacao = new Operacao(dataHora, valor, tipo, taxa, saldoReal, saldoBitcoin, saldoEthereum, saldoRipple);
+                    Operacao operacao = new Operacao(dataHora, valor,  tipo, taxa, saldoReal, saldoBitcoin, saldoEthereum, saldoRipple);
                     operacoes.add(operacao);
                 }
             }

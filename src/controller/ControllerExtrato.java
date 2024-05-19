@@ -24,7 +24,9 @@ public class ControllerExtrato {
     
     public ControllerExtrato(JanelaExtrato janelaExtrato) {
         this.janelaExtrato = janelaExtrato;
+        this.operacoesDAO = new OperacoesDAO(conn);
     }
+    
   public void consultarExtrato(String cpf) {
         try {
             Extrato extrato = operacoesDAO.consultarExtrato(cpf);
@@ -35,34 +37,30 @@ public class ControllerExtrato {
         }
     }
 public void exibirExtrato(Extrato extrato) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     StringBuilder sb = new StringBuilder();
     sb.append("Nome: ").append(extrato.getNome()).append("\n");
-    sb.append("CPF: ").append(extrato.getCpf()).append("\n");
-    sb.append("\n");
+    sb.append("CPF: ").append(extrato.getCpf()).append("\n\n");
+    sb.append(String.format("%-20s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n",
+        "Data e Hora", "Operação", "Valor (R$)", "CT", "TX (R$)", "Saldo REAL", "Saldo BTC", "Saldo ETH", "Saldo XRP"));
 
     for (Operacao operacao : extrato.getOperacoes()) {
-        String dataFormatada = operacao.getDataHora().format(formatter);
-        double valorFormatado = Double.parseDouble(String.format("%.2f", operacao.getValor()));
-        double valorCriptoFormatado = Double.parseDouble(String.format("%.2f", operacao.getValorCripto()));
-        double taxaFormatada = Double.parseDouble(String.format("%.2f", operacao.getTaxa()));
-        double valorRealFormatado = Double.parseDouble(String.format("%.2f", operacao.getValorReal()));
-        double saldoBitcoinFormatado = Double.parseDouble(String.format("%.2f", operacao.getSaldoBitcoin()));
-        double saldoEthereumFormatado = Double.parseDouble(String.format("%.2f", operacao.getSaldoEthereum()));
-        double saldoRippleFormatado = Double.parseDouble(String.format("%.2f", operacao.getSaldoRipple()));
-
-        sb.append(dataFormatada).append(" ");
-        sb.append(operacao.getTipo()).append(" ");
-        sb.append(valorFormatado).append(" ");
-        sb.append("CT: ").append(valorCriptoFormatado).append(" ");
-        sb.append("TX: ").append(taxaFormatada).append(" ");
-        sb.append("REAL: ").append(valorRealFormatado).append(" ");
-        sb.append("BTC: ").append(saldoBitcoinFormatado).append(" ");
-        sb.append("ETH: ").append(saldoEthereumFormatado).append(" ");
-        sb.append("XRP: ").append(saldoRippleFormatado).append("\n");
+        String sinal = operacao.getTipo().equals("Deposito") || operacao.getTipo().equals("Compra") ? "+" : "-";
+        sb.append(String.format("%-20s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n",
+            operacao.getDataHora().format(formatter),
+            operacao.getTipo(),
+            sinal + String.format("%.3f", operacao.getValor()),
+            String.format("%.3f", operacao.getCotacao()),
+            String.format("%.3f", operacao.getTaxa()),
+            String.format("%.2f", operacao.getSaldoReal()),
+            String.format("%.3f", operacao.getSaldoBitcoin()),
+            String.format("%.3f", operacao.getSaldoEthereum()),
+            String.format("%.3f", operacao.getSaldoRipple())
+        ));
     }
 
     janelaExtrato.getLblExtrato().setText(sb.toString());
 }
+
 }

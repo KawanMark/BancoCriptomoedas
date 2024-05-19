@@ -7,6 +7,7 @@ package view;
 import DAO.ClienteDAO;
 import controller.ControllerCriptomoeda;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.ButtonGroup;
@@ -41,6 +42,7 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
         this.conn = conn;
         this.carteira = carteira;
         this.cotacao = cotacao; // Aqui você inicializa cotacao
+        this.clienteDAO = new ClienteDAO(conn);
         c = new ControllerCriptomoeda(conn, this, carteira, cotacao); // Aqui você passa a instância de cotacao para o construtor de ControllerCriptomoeda
         initComponents();
 }
@@ -300,7 +302,12 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
 
 
     // Chama o método do controller para comprar a moeda
-    c.comprarMoeda(valorCompra, moedaSelecionada,"54181947807");
+    try{
+            String cpf = clienteDAO.obterCpfCliente();
+            c.comprarMoeda(valorCompra, moedaSelecionada, cpf);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }//GEN-LAST:event_btComprarActionPerformed
 

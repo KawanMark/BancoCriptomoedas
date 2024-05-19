@@ -114,6 +114,12 @@ public class JanelaCotacao extends javax.swing.JFrame {
      * @param args the command line arguments
      */
 private void atualizarCotacoes() throws SQLException {
+    
+    
+    if (ClienteDAO.isCotacoesVazia()) {
+        ClienteDAO.inserirCotacoesIniciais();
+    }
+    
     // Obter a data e hora atual
     LocalDateTime agora = LocalDateTime.now(ZoneId.of("America/Sao_Paulo"));
     DateTimeFormatter formatadorDataHora = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");

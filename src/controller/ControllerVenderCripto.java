@@ -89,6 +89,7 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
 
         // Calcular a taxa de venda
         double taxaVenda = moeda.calcularTaxaVenda(valorVenda);
+        taxaVenda = Math.round(taxaVenda * 100.0) / 100.0;
         System.out.println("taxa vendaa " + taxaVenda);
         
         // Atualize o saldo em reais e o saldo da criptomoeda
@@ -114,11 +115,11 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
          "Data e Hora: %s\n" +
          "Moeda: %s\n" +
          "Tipo: %s\n" +
-         "Quantidade: %.8f\n" +
+         "Quantidade vendida: %.4f\n" +
          "Cotação Atual: %.2f\n" +
-         "Taxa de Venda: %.2f\n" +
+         "Taxa de Venda: %.3f\n" +
          "Saldo Atual (Reais): %.2f\n" +
-         "Novo Saldo de %s: %.8f\n",
+         "Novo Saldo de %s: %.4f\n",
          LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")),
          moedaSelecionada,
          moedaSelecionada,

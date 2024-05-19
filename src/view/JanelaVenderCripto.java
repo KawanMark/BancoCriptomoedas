@@ -16,6 +16,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import model.Carteira;
 import model.Cotacao;
+import java.sql.SQLException;
+
 
 /**
  *
@@ -35,7 +37,8 @@ public class JanelaVenderCripto extends javax.swing.JFrame {
     public JanelaVenderCripto(Connection conn, Carteira carteira, Cotacao cotacao) {
         this.conn = conn;
         this.carteira = carteira;
-        this.cotacao = cotacao; // Aqui você inicializa cotacao
+        this.cotacao = cotacao; 
+        this.clienteDAO = new ClienteDAO(conn);
           this.c = new ControllerVenderCripto(conn, this, carteira, cotacao); 
         initComponents();
     }
@@ -256,8 +259,13 @@ public class JanelaVenderCripto extends javax.swing.JFrame {
         moedaSelecionada = "Ripple";
     }
 
-    // Chama o método do controlador para vender a moeda
-        c.venderMoeda(quantidade, moedaSelecionada, "54181947807");
+        try{
+            String cpf = clienteDAO.obterCpfCliente();
+            c.venderMoeda(quantidade, moedaSelecionada, cpf);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+     
     }//GEN-LAST:event_btVenderActionPerformed
 
     private void rbBitcoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbBitcoinActionPerformed

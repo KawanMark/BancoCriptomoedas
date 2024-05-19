@@ -170,9 +170,13 @@ public class JanelaDepositar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btDepositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDepositarActionPerformed
-        String cpf = "54181947807"; // Substitua pelo CPF do usuário logado
+       try {
+        String cpf = clienteDAO.obterCpfCliente(); // Substitua pelo CPF do usuário logado
         c.realizarOperacaoDeposito(cpf);
-    
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Erro ao realizar depósito. Por favor, tente novamente.");
+    }
    
     }//GEN-LAST:event_btDepositarActionPerformed
 

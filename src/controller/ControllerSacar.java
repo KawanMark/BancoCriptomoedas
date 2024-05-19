@@ -57,7 +57,7 @@ public class ControllerSacar {
 
 public void realizarSaque(double valorSaque) {
     try {
-        String cpf = "54181947807"; 
+        String cpf = clienteDAO.obterCpfCliente();
         
         double saldoAtual = clienteDAO.consultarSaldo(cpf, "Reais");
         

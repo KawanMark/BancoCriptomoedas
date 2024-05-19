@@ -76,24 +76,30 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
 
     // Calcular a taxa de compra
     double taxaCompra = moeda.calcularTaxaCompra(valorCompra);
+    //taxaCompra = Math.round(taxaCompra * 100.0) / 100.0;
+    System.out.println( taxaCompra);
    
 
     // Calcular a quantidade de moeda a comprar
-    double quantidadeComprada = (valorCompra - taxaCompra) / cotacaoAtual;
- 
+    double quantidadeComprada = valorCompra / cotacaoAtual;
+    System.out.println("Valor compra: " + valorCompra);
+    System.out.println("Cotacao atual" + cotacaoAtual);
+    quantidadeComprada = quantidadeComprada - (taxaCompra / cotacaoAtual);
+    System.out.println(quantidadeComprada);
 
-    // Verificar se o saldo é suficiente para a compra
+
+ 
+    System.out.println(carteira.getSaldoReais());
+    
     if (valorCompra > carteira.getSaldoReais()) {
         JOptionPane.showMessageDialog(janela, "Saldo insuficiente para realizar a compra.");
         return null;
     } else {
-        // Atualize o saldo em reais e o saldo da criptomoeda
         double novoSaldoReais = carteira.getSaldoReais() - valorCompra;
         carteira.setSaldoReais(novoSaldoReais);
         double saldoMoedaAtualizado = moeda.getSaldo() + quantidadeComprada;
         moeda.setSaldo(saldoMoedaAtualizado);
 
-        // Atualize o saldo no banco de dados
         try {
             clienteDAO.atualizarSaldo(cpf, "Reais", novoSaldoReais);
             clienteDAO.adicionarSaldoCripto(cpf, quantidadeComprada, moedaSelecionada);
@@ -103,17 +109,17 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
             return null;
         }
         
-        // Registrar a operação no banco de dados
-        //clienteDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valor, novoSaldoReais);
+
         operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorCompra, taxaCompra, quantidadeComprada);
         
 
         // Adicionar detalhes da compra ao lblComprar
-        String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f\nSaldo Atual: %.2f\n",
+        String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f\nTaxa de Compra: %.3f\nSaldo Atual: %.2f\n",
             LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")),
             moedaSelecionada,
             quantidadeComprada,
             cotacaoAtual,
+            taxaCompra, // Adicione a taxa de compra aqui
             novoSaldoReais
         );
         janela.getLblComprar().append(detalhesCompra);

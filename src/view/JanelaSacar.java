@@ -35,8 +35,8 @@ public class JanelaSacar extends javax.swing.JFrame {
        initComponents();
    }
     
-    public void atualizarSaldoAtual(double saldoAtualizado) {
-        lblSacar.setText("Saldo atual: R$ " + saldoAtualizado);
+   public void atualizarSaldoAtual(double saldoAtualizado) {
+        lblSacar.setText("Saldo atual: R$ " + String.format("%.2f", saldoAtualizado));
     }
 
     public ControllerSacar getC() {
