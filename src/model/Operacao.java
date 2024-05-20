@@ -14,8 +14,10 @@ public class Operacao {
     private double saldoRipple;
     private double valorCripto;
     private double valorReal;
+    private String moeda;
+    private String moedaOperacao;
 
-  public Operacao(LocalDateTime dataHora, double valor, String tipo, double taxa, double saldoReal, double saldoBitcoin, double saldoEthereum, double saldoRipple) {
+  public Operacao(LocalDateTime dataHora, double valor, String tipo, double taxa, double saldoReal, double saldoBitcoin, double saldoEthereum, double saldoRipple, String moedaOperacao) {
     this.dataHora = dataHora;
     this.valor = valor;
     this.cotacao = cotacao;
@@ -25,6 +27,7 @@ public class Operacao {
     this.saldoBitcoin = saldoBitcoin;
     this.saldoEthereum = saldoEthereum;
     this.saldoRipple = saldoRipple;
+     this.moedaOperacao = moedaOperacao;
 }
 
     public LocalDateTime getDataHora() {
@@ -74,6 +77,23 @@ public class Operacao {
     public void setCotacao(double cotacao) {
         this.cotacao = cotacao;
     }
+    
+    public String getMoeda() {
+        return this.moeda;
+    }
+    
+    public String getMoedaOperacao() {
+        return this.moedaOperacao;
+    }
+
+    public void setMoedaOperacao(String moedaOperacao) {
+        this.moedaOperacao = moedaOperacao;
+    }
+    
+    
+
+    
+    
     
     
 }

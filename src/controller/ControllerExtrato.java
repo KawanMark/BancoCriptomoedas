@@ -4,6 +4,7 @@
  */
 package controller;
 
+import DAO.ClienteDAO;
 import DAO.OperacoesDAO;
 import view.JanelaExtrato;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import model.Extrato;
 import model.Operacao;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import model.CompraInfo;
 /**
  *
  * @author kawan
@@ -21,10 +23,13 @@ public class ControllerExtrato {
      private Connection conn;
     private JanelaExtrato janelaExtrato;
     private OperacoesDAO operacoesDAO;
+    private ClienteDAO clienteDAO;
     
     public ControllerExtrato(JanelaExtrato janelaExtrato) {
         this.janelaExtrato = janelaExtrato;
         this.operacoesDAO = new OperacoesDAO(conn);
+        this.clienteDAO = new ClienteDAO(conn);
+        
     }
     
   public void consultarExtrato(String cpf) {
@@ -36,31 +41,33 @@ public class ControllerExtrato {
             JOptionPane.showMessageDialog(null, "Erro ao consultar extrato.");
         }
     }
+  
 public void exibirExtrato(Extrato extrato) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     StringBuilder sb = new StringBuilder();
     sb.append("Nome: ").append(extrato.getNome()).append("\n");
     sb.append("CPF: ").append(extrato.getCpf()).append("\n\n");
-    sb.append(String.format("%-20s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n",
-        "Data e Hora", "Operação", "Valor (R$)", "CT", "TX (R$)", "Saldo REAL", "Saldo BTC", "Saldo ETH", "Saldo XRP"));
 
     for (Operacao operacao : extrato.getOperacoes()) {
-        String sinal = operacao.getTipo().equals("Deposito") || operacao.getTipo().equals("Compra") ? "+" : "-";
-        sb.append(String.format("%-20s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s\n",
+        String sinal = operacao.getTipo().equals("Deposito") || operacao.getTipo().equals("Venda") ? " -> " : " -> ";
+        sb.append(String.format("%s%s %.2f %s %s CT: %.4f TX: %.2f REAL: %.2f BTC: %.4f ETH: %.4f XRP: %.4f\n",
             operacao.getDataHora().format(formatter),
+            sinal,
+            operacao.getValor(),
             operacao.getTipo(),
-            sinal + String.format("%.3f", operacao.getValor()),
-            String.format("%.3f", operacao.getCotacao()),
-            String.format("%.3f", operacao.getTaxa()),
-            String.format("%.2f", operacao.getSaldoReal()),
-            String.format("%.3f", operacao.getSaldoBitcoin()),
-            String.format("%.3f", operacao.getSaldoEthereum()),
-            String.format("%.3f", operacao.getSaldoRipple())
+            operacao.getMoedaOperacao(),
+            operacao.getCotacao(),
+            operacao.getTaxa(),
+            operacao.getSaldoReal(),
+            operacao.getSaldoBitcoin(),
+            operacao.getSaldoEthereum(),
+            operacao.getSaldoRipple()
         ));
     }
-
+    
     janelaExtrato.getLblExtrato().setText(sb.toString());
 }
+
 
 }

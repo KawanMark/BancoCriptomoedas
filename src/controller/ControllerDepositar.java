@@ -68,7 +68,7 @@ public class ControllerDepositar {
             double taxa = 0;
 
             
-            operacoesDAO.registrarOperacao(cpf, "Depósito", "Reais", valorDeposito, taxa, saldoAtual);
+            operacoesDAO.registrarOperacao(cpf, "Depósito", "Reais", valorDeposito, taxa, saldoAtual, 0.0);
 
             exibirInformacoesDeposito(saldoAntes, valorDeposito, saldoAtual);
         } catch (SQLException e) {

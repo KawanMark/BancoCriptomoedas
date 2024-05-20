@@ -76,6 +76,7 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
 
     // Calcular a taxa de compra
     double taxaCompra = moeda.calcularTaxaCompra(valorCompra);
+    double taxaCompraArredondada = Math.floor(taxaCompra * 100) / 100;
     //taxaCompra = Math.round(taxaCompra * 100.0) / 100.0;
     System.out.println( taxaCompra);
    
@@ -110,16 +111,16 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
         }
         
 
-        operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorCompra, taxaCompra, quantidadeComprada);
+        operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorCompra, taxaCompra, quantidadeComprada, cotacaoAtual);
         
 
         // Adicionar detalhes da compra ao lblComprar
-        String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f\nTaxa de Compra: %.3f\nSaldo Atual: %.2f\n",
+        String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f\nTaxa de Compra: %.2f\nSaldo Atual: %.2f\n",
             LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")),
             moedaSelecionada,
             quantidadeComprada,
             cotacaoAtual,
-            taxaCompra, // Adicione a taxa de compra aqui
+            taxaCompraArredondada, 
             novoSaldoReais
         );
         janela.getLblComprar().append(detalhesCompra);

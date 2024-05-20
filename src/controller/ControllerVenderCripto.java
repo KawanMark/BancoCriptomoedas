@@ -109,13 +109,13 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
         }
         
        
-        operacoesDAO.registrarOperacao(cpf, "Venda", moedaSelecionada, valorVenda, taxaVenda, quantidade);
+        operacoesDAO.registrarOperacao(cpf, "Venda", moedaSelecionada, valorVenda, taxaVenda, quantidade, cotacaoAtual);
 
         String detalhesVenda = String.format("Venda realizada com sucesso!\n" +
          "Data e Hora: %s\n" +
          "Moeda: %s\n" +
          "Tipo: %s\n" +
-         "Quantidade vendida: %.4f\n" +
+         "Quantidade vendida: %.2f\n" +
          "Cotação Atual: %.2f\n" +
          "Taxa de Venda: %.3f\n" +
          "Saldo Atual (Reais): %.2f\n" +

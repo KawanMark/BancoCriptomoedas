@@ -69,7 +69,7 @@ public void realizarSaque(double valorSaque) {
             janelaSacar.atualizarSaldoAtual(novoSaldo);
             JOptionPane.showMessageDialog(janelaSacar, "Saque realizado com sucesso!");
             OperacoesDAO operacoesDAO = new OperacoesDAO(conn);
-             operacoesDAO.registrarOperacao(cpf, "Saque", "Reais", valorSaque, 0.0, saldoAtual);
+             operacoesDAO.registrarOperacao(cpf, "Saque", "Reais", valorSaque, 0.0, saldoAtual, 0.0);
 
         }
     } catch (SQLException e) {
