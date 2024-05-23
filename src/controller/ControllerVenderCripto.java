@@ -41,7 +41,7 @@ public class ControllerVenderCripto {
         }
     }
 
-public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String cpf) {
+public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String cpf) throws SQLException {
     // Antes de prosseguir com a venda, atualizamos o saldo da carteira
     atualizarSaldoDaCarteira(cpf);
 
@@ -93,9 +93,10 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
         double taxaVenda = moeda.calcularTaxaVenda(valorVenda);
         taxaVenda = Math.round(taxaVenda * 100.0) / 100.0;
 
+        double valorTotalVenda = valorVenda - taxaVenda;
         
         // Atualize o saldo em reais e o saldo da criptomoeda
-        double novoSaldoReais = carteira.getSaldoReais() + valorVenda - taxaVenda;
+        double novoSaldoReais = carteira.getSaldoReais() + valorTotalVenda;
         carteira.setSaldoReais(novoSaldoReais);
         
         double saldoMoedaAtualizado = saldoMoeda - quantidade;
@@ -115,7 +116,9 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
         }
         
        
-        operacoesDAO.registrarOperacao(cpf, "Venda", moedaSelecionada, valorVenda, taxaVenda, quantidade, cotacaoAtual);
+        //operacoesDAO.registrarOperacao(cpf, "Venda", moedaSelecionada, valorVenda, taxaVenda, quantidade, cotacaoAtual);
+        
+         operacoesDAO.registrarOperacao(cpf, "Venda", moedaSelecionada, valorTotalVenda, taxaVenda, novoSaldoReais, clienteDAO.consultarSaldo(cpf, "Bitcoin"), clienteDAO.consultarSaldo(cpf, "Ethereum"), clienteDAO.consultarSaldo(cpf, "Ripple"));
         
 
         String detalhesVenda = String.format("Venda realizada com sucesso!\n" +

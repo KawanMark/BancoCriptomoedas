@@ -22,8 +22,8 @@ public class OperacoesDAO {
         this.clienteDAO = new ClienteDAO(conn);
     }
 
-public boolean registrarOperacao(String cpfCliente, String tipoOperacao, String moedaOperacao, double valorOperacao, double taxa, double quantidade, double cotacao) {
-    String sql = "INSERT INTO operacoes (cpf_cliente, data_operacao, tipo_operacao, moeda_operacao, valor_operacao, taxa, saldo_atual_" + moedaOperacao.toLowerCase() + ", cotacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+public boolean registrarOperacao(String cpfCliente, String tipoOperacao, String moedaOperacao, double valorOperacao, double taxa, double saldoAtualReal, double saldoAtualBitcoin, double saldoAtualEthereum, double saldoAtualRipple) {
+    String sql = "INSERT INTO operacoes (cpf_cliente, data_operacao, tipo_operacao, moeda_operacao, valor_operacao, taxa, saldo_atual_reais, saldo_atual_bitcoin, saldo_atual_ethereum, saldo_atual_ripple) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try {
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setString(1, cpfCliente);
@@ -32,9 +32,11 @@ public boolean registrarOperacao(String cpfCliente, String tipoOperacao, String 
         statement.setString(4, moedaOperacao);
         statement.setDouble(5, valorOperacao);
         statement.setDouble(6, taxa);
-        statement.setDouble(7, quantidade); 
-        statement.setDouble(8, cotacao); 
-        
+        statement.setDouble(7, saldoAtualReal);
+        statement.setDouble(8, saldoAtualBitcoin);
+        statement.setDouble(9, saldoAtualEthereum);
+        statement.setDouble(10, saldoAtualRipple);
+
         int rowsInserted = statement.executeUpdate();
         return rowsInserted > 0;
     } catch (SQLException e) {
@@ -42,6 +44,7 @@ public boolean registrarOperacao(String cpfCliente, String tipoOperacao, String 
         return false;
     }
 }
+
 
 
 
@@ -61,15 +64,13 @@ public Extrato consultarExtrato(String cpf) throws SQLException {
                 String tipo = rs.getString("tipo_operacao");
                 double taxa = rs.getDouble("taxa");
                 String moedaOperacao = rs.getString("moeda_operacao");
-
-                // Consultar os saldos atualizados para o cliente
-                double saldoRealAtualizado = clienteDAO.consultarSaldo(cpf, "Reais");
-                double saldoBitcoinAtualizado = clienteDAO.consultarSaldo(cpf, "Bitcoin");
-                double saldoEthereumAtualizado = clienteDAO.consultarSaldo(cpf, "Ethereum");
-                double saldoRippleAtualizado = clienteDAO.consultarSaldo(cpf, "Ripple");
+                double saldoReal = rs.getDouble("saldo_atual_reais");
+                double saldoBitcoin = rs.getDouble("saldo_atual_bitcoin");
+                double saldoEthereum = rs.getDouble("saldo_atual_ethereum");
+                double saldoRipple = rs.getDouble("saldo_atual_ripple");
 
                 // Criar a operação com as informações obtidas
-                Operacao operacao = new Operacao(dataHora, valor, tipo, taxa, saldoRealAtualizado, saldoBitcoinAtualizado, saldoEthereumAtualizado, saldoRippleAtualizado, moedaOperacao);
+                Operacao operacao = new Operacao(dataHora, valor, tipo, taxa, saldoReal, saldoBitcoin, saldoEthereum, saldoRipple, moedaOperacao);
 
                 // Definir a cotação atual
                 operacao.setCotacao(cotacao);
@@ -84,6 +85,7 @@ public Extrato consultarExtrato(String cpf) throws SQLException {
 
     return extrato;
 }
+
 
  
  

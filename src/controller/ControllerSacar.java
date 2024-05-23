@@ -68,8 +68,14 @@ public void realizarSaque(double valorSaque) {
             clienteDAO.atualizarSaldo(cpf, "Reais", novoSaldo);
             janelaSacar.atualizarSaldoAtual(novoSaldo);
             JOptionPane.showMessageDialog(janelaSacar, "Saque realizado com sucesso!");
+            
             OperacoesDAO operacoesDAO = new OperacoesDAO(conn);
-             operacoesDAO.registrarOperacao(cpf, "Saque", "Reais", valorSaque, 0.0, saldoAtual, 0.0);
+            //operacoesDAO.registrarOperacao(cpf, "Saque", "Reais", valorSaque, 0.0, saldoAtual, 0.0);
+             
+             operacoesDAO.registrarOperacao(cpf, "Saque", "Reais", valorSaque, 0.0, novoSaldo,
+                clienteDAO.consultarSaldo(cpf, "Bitcoin"), clienteDAO.consultarSaldo(cpf, "Ethereum"),
+                clienteDAO.consultarSaldo(cpf, "Ripple"));
+
 
         }
     } catch (SQLException e) {
