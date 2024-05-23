@@ -16,6 +16,7 @@ import java.sql.Connection;
  */
 public class JanelaMenu extends javax.swing.JFrame {
      private Connection conn;
+     private JanelaSaldo janelaSaldo;
      
     /**
      * Creates new form JanelaMenu
@@ -174,7 +175,8 @@ public class JanelaMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btConsultarSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarSaldoActionPerformed
-        c.abrirJanelaSaldo();
+
+    c.abrirJanelaSaldo();
         
     }//GEN-LAST:event_btConsultarSaldoActionPerformed
 

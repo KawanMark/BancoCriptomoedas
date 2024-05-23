@@ -127,10 +127,9 @@ public class Controller {
     
     
 public void abrirJanelaSaldo() {
-        ControllerSaldo controllerSaldo = new ControllerSaldo(clienteDAO, new JanelaSaldo());
+        ControllerSaldo controllerSaldo = new ControllerSaldo(clienteDAO, new JanelaSaldo(clienteDAO));
         controllerSaldo.consultarSaldo();
 }
-
 public void abrirJanelaDeposito() {
     try {
         // Obtenha a conexão usando a classe Conexao

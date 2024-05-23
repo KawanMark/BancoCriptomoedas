@@ -5,7 +5,10 @@
 package view;
 
 
+import DAO.ClienteDAO;
 import controller.Controller;
+import controller.ControllerSaldo;
+import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -16,14 +19,20 @@ import javax.swing.JTextArea;
  * @author kawan
  */
 public class JanelaSaldo extends javax.swing.JFrame {
+    private ControllerSaldo controllerSaldo;
+     private ClienteDAO clienteDAO;
 
     /**
      * Creates new form JanelaSaldo
      */
-    public JanelaSaldo() {
+ 
+    public JanelaSaldo(ClienteDAO clienteDAO) {
+        this.clienteDAO = clienteDAO;
         initComponents();
-    }
 
+        this.c1 = new ControllerSaldo(clienteDAO, this);
+    }
+ 
     public JButton getBtConsultar() {
         return btConsultar;
     }
@@ -122,11 +131,17 @@ public class JanelaSaldo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConsultarActionPerformed
-        // TODO add your handling code here:
+        try{
+            String cpf = clienteDAO.obterCpfCliente();
+            c1.exibirSaldo(cpf);
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btConsultarActionPerformed
 
  
     Controller c;
+    ControllerSaldo c1;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btConsultar;
     private javax.swing.JLabel jLabel1;

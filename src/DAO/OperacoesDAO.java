@@ -22,8 +22,8 @@ public class OperacoesDAO {
         this.clienteDAO = new ClienteDAO(conn);
     }
 
-public boolean registrarOperacao(String cpfCliente, String tipoOperacao, String moedaOperacao, double valorOperacao, double taxa, double saldoAtualReal, double saldoAtualBitcoin, double saldoAtualEthereum, double saldoAtualRipple) {
-    String sql = "INSERT INTO operacoes (cpf_cliente, data_operacao, tipo_operacao, moeda_operacao, valor_operacao, taxa, saldo_atual_reais, saldo_atual_bitcoin, saldo_atual_ethereum, saldo_atual_ripple) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+public boolean registrarOperacao(String cpfCliente, String tipoOperacao, String moedaOperacao, double valorOperacao, double taxa, double saldoAtualReal, double saldoAtualBitcoin, double saldoAtualEthereum, double saldoAtualRipple, double cotacaoMoeda) {
+    String sql = "INSERT INTO operacoes (cpf_cliente, data_operacao, tipo_operacao, moeda_operacao, valor_operacao, taxa, saldo_atual_reais, saldo_atual_bitcoin, saldo_atual_ethereum, saldo_atual_ripple, cotacao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try {
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setString(1, cpfCliente);
@@ -36,6 +36,7 @@ public boolean registrarOperacao(String cpfCliente, String tipoOperacao, String 
         statement.setDouble(8, saldoAtualBitcoin);
         statement.setDouble(9, saldoAtualEthereum);
         statement.setDouble(10, saldoAtualRipple);
+        statement.setDouble(11, cotacaoMoeda);
 
         int rowsInserted = statement.executeUpdate();
         return rowsInserted > 0;

@@ -120,7 +120,7 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
             double saldoRippleAtualizado = clienteDAO.consultarSaldo(cpf, "Ripple");
             clienteDAO.atualizarSaldo(cpf, "Reais", novoSaldoReais);
             clienteDAO.adicionarSaldoCripto(cpf, quantidadeComprada, moedaSelecionada);
-            operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorTotalCompra, taxaCompra, novoSaldoReais, saldoBitcoinAtualizado, saldoEthereumAtualizado, saldoRippleAtualizado);
+            operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorTotalCompra, taxaCompra, novoSaldoReais, saldoBitcoinAtualizado, saldoEthereumAtualizado, saldoRippleAtualizado, cotacaoAtual);
 
         
 

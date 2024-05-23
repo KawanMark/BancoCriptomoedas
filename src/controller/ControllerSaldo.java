@@ -63,7 +63,7 @@ public class ControllerSaldo {
 
 
     // Método para exibir o saldo do cliente
-    private void exibirSaldo(String cpf) {
+    public void exibirSaldo(String cpf) {
         try {
             // Recupera o saldo do cliente do banco de dados usando o CPF
             double saldoReais = clienteDAO.consultarSaldo(cpf, "Reais");

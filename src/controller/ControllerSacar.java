@@ -74,7 +74,7 @@ public void realizarSaque(double valorSaque) {
              
              operacoesDAO.registrarOperacao(cpf, "Saque", "Reais", valorSaque, 0.0, novoSaldo,
                 clienteDAO.consultarSaldo(cpf, "Bitcoin"), clienteDAO.consultarSaldo(cpf, "Ethereum"),
-                clienteDAO.consultarSaldo(cpf, "Ripple"));
+                clienteDAO.consultarSaldo(cpf, "Ripple"), 0.0);
 
 
         }

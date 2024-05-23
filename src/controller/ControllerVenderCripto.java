@@ -118,7 +118,7 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
        
         //operacoesDAO.registrarOperacao(cpf, "Venda", moedaSelecionada, valorVenda, taxaVenda, quantidade, cotacaoAtual);
         
-         operacoesDAO.registrarOperacao(cpf, "Venda", moedaSelecionada, valorTotalVenda, taxaVenda, novoSaldoReais, clienteDAO.consultarSaldo(cpf, "Bitcoin"), clienteDAO.consultarSaldo(cpf, "Ethereum"), clienteDAO.consultarSaldo(cpf, "Ripple"));
+         operacoesDAO.registrarOperacao(cpf, "Venda", moedaSelecionada, valorTotalVenda, taxaVenda, novoSaldoReais, clienteDAO.consultarSaldo(cpf, "Bitcoin"), clienteDAO.consultarSaldo(cpf, "Ethereum"), clienteDAO.consultarSaldo(cpf, "Ripple"), cotacaoAtual);
         
 
         String detalhesVenda = String.format("Venda realizada com sucesso!\n" +
