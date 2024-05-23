@@ -15,6 +15,18 @@ public class Cliente {
     private String cpf;
     private String senha;
     private Carteira carteira;
+    
+      /**
+     * Construtor da classe Cliente.
+     *
+     * @param nome Nome do cliente.
+     * @param cpf CPF do cliente.
+     * @param senha Senha do cliente.
+     * @param saldoReais Saldo em Reais do cliente.
+     * @param saldoEthereum Saldo em Ethereum do cliente.
+     * @param saldoRipple Saldo em Ripple do cliente.
+     * @param saldoBitcoin Saldo em Bitcoin do cliente.
+     */
 
     public Cliente(String nome, String cpf, String senha, double saldoReais, double saldoEthereum, double saldoRipple, double saldoBitcoin) {
         this.nome = nome;

@@ -125,10 +125,7 @@ public class JanelaSaldo extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btConsultarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-
+ 
     Controller c;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btConsultar;

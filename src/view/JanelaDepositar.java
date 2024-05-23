@@ -184,9 +184,7 @@ public class JanelaDepositar extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txtDepositoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+
    
 ControllerDepositar c;
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -10,8 +10,7 @@ package model;
  */
 
 public class Bitcoin extends Moedas implements Tarifas {
-   
-    public Bitcoin(double saldoBitcoin) {
+     public Bitcoin(double saldoBitcoin) {
         super(saldoBitcoin);
     }
 
@@ -26,4 +25,6 @@ public class Bitcoin extends Moedas implements Tarifas {
 
         return valor * 0.03; // 3% de taxa de venda
     }
+    
+   
 }

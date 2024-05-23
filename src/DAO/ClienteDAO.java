@@ -48,6 +48,15 @@ public class ClienteDAO {
             }
         }
     }
+  
+  /**
+     * Atualiza o saldo do cliente.
+     *
+     * @param cpfCliente CPF do cliente.
+     * @param tipoMoeda Tipo de moeda.
+     * @param novoSaldo Novo saldo.
+     * @throws SQLException Se ocorrer um erro de SQL.
+     */
     
  public void atualizarSaldo(String cpfCliente, String tipoMoeda, double novoSaldo) throws SQLException {
     String sql = "UPDATE cliente SET saldo_" + tipoMoeda + " = ? WHERE cpf = ?";
@@ -98,6 +107,14 @@ public class ClienteDAO {
             return false;
         }
     }
+   
+   /**
+     * Adiciona saldo em criptomoedas ao cliente.
+     *
+     * @param cpf CPF do cliente.
+     * @param quantidade Quantidade a ser adicionada.
+     * @param moeda Tipo de moeda a ser adicionada.
+     */
    
 public void adicionarSaldoCripto(String cpf, double quantidade, String moeda) {
     String nomeColuna = "saldo_" + moeda.toLowerCase(); // Obtém o nome da coluna com base na moeda

@@ -20,6 +20,8 @@ public class Carteira  {
         ethereum = new Ethereum(saldoEthereum);
         ripple = new Ripple(saldoRipple);
         bitcoin = new Bitcoin(saldoBitcoin);
+        
+        
     }
     
 

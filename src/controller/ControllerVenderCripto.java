@@ -49,6 +49,7 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
     double saldoMoeda = 0.0;
      try {
         saldoMoeda = clienteDAO.consultarSaldo(cpf, moedaSelecionada);
+
     } catch (SQLException e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(janela, "Erro ao consultar saldo da moeda.");
@@ -79,23 +80,24 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
         } else {
         // Obter a cotação atual da moeda
         double cotacaoAtual = cotacao.getCotacao(moedaSelecionada);
-            System.out.println("QUANTIDADEEE " + quantidade);
-            
-            System.out.println("moeda get saldo " + saldoMoeda);
             
         // Calcular o valor em reais da venda
         double valorVenda = quantidade * cotacaoAtual;
-        System.out.println("VALOR VENDAAA " + valorVenda);
+  
 
         // Calcular a taxa de venda
         double taxaVenda = moeda.calcularTaxaVenda(valorVenda);
         taxaVenda = Math.round(taxaVenda * 100.0) / 100.0;
-        System.out.println("taxa vendaa " + taxaVenda);
+
         
         // Atualize o saldo em reais e o saldo da criptomoeda
         double novoSaldoReais = carteira.getSaldoReais() + valorVenda - taxaVenda;
         carteira.setSaldoReais(novoSaldoReais);
+
         double saldoMoedaAtualizado = moeda.getSaldo() - quantidade;
+        System.out.println("Moeda get saldo " + moeda.getSaldo());
+            System.out.println("SALDO MOEDA ATUALIZADO " + saldoMoedaAtualizado);
+        
         moeda.setSaldo(saldoMoedaAtualizado);
 
         // Atualize o saldo no banco de dados
@@ -110,6 +112,7 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
         
        
         operacoesDAO.registrarOperacao(cpf, "Venda", moedaSelecionada, valorVenda, taxaVenda, quantidade, cotacaoAtual);
+        
 
         String detalhesVenda = String.format("Venda realizada com sucesso!\n" +
          "Data e Hora: %s\n" +
@@ -117,7 +120,7 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
          "Tipo: %s\n" +
          "Quantidade vendida: %.2f\n" +
          "Cotação Atual: %.2f\n" +
-         "Taxa de Venda: %.3f\n" +
+         "Taxa de Venda: %.2f\n" +
          "Saldo Atual (Reais): %.2f\n" +
          "Novo Saldo de %s: %.4f\n",
          LocalDateTime.now(ZoneId.of("America/Sao_Paulo")).format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")),
@@ -130,7 +133,8 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
          moedaSelecionada,
          saldoMoedaAtualizado
      );
-janela.getLblVender().append(detalhesVenda);
+            System.out.println("SALDO DA MOEDA ATUALIZADO " + saldoMoedaAtualizado);
+    janela.getLblVender().append(detalhesVenda);
     return new CompraInfo("Venda realizada com sucesso!", quantidade, moedaSelecionada);
 }}
 }

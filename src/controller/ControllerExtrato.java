@@ -50,7 +50,7 @@ public void exibirExtrato(Extrato extrato) {
     sb.append("CPF: ").append(extrato.getCpf()).append("\n\n");
 
     for (Operacao operacao : extrato.getOperacoes()) {
-        String sinal = operacao.getTipo().equals("Deposito") || operacao.getTipo().equals("Venda") ? " -> " : " -> ";
+        String sinal = operacao.getTipo().equals("Depósito") || operacao.getTipo().equals("Venda") ? " + R$ " : " - R$ ";
         sb.append(String.format("%s%s %.2f %s %s CT: %.4f TX: %.2f REAL: %.2f BTC: %.4f ETH: %.4f XRP: %.4f\n",
             operacao.getDataHora().format(formatter),
             sinal,

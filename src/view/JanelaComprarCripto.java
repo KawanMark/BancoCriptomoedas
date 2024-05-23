@@ -319,9 +319,6 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtComprarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     ControllerCriptomoeda c;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
