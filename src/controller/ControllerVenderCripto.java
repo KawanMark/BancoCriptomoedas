@@ -47,14 +47,7 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
 
     Moedas moeda;
     double saldoMoeda = 0.0;
-     try {
-        saldoMoeda = clienteDAO.consultarSaldo(cpf, moedaSelecionada);
-
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(janela, "Erro ao consultar saldo da moeda.");
-        return null;
-    }
+  
     // Determinar qual moeda foi selecionada e instanciar o objeto correspondente
     switch (moedaSelecionada) {
         case "Bitcoin":
@@ -70,6 +63,17 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
             // Moeda não reconhecida
             JOptionPane.showMessageDialog(janela, "Moeda selecionada não reconhecida.");
             return null;
+    }
+    
+
+     try {
+        saldoMoeda = clienteDAO.consultarSaldo(cpf, moedaSelecionada);
+ 
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(janela, "Erro ao consultar saldo da moeda.");
+        return null;
     }
     
     
@@ -93,8 +97,8 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
         // Atualize o saldo em reais e o saldo da criptomoeda
         double novoSaldoReais = carteira.getSaldoReais() + valorVenda - taxaVenda;
         carteira.setSaldoReais(novoSaldoReais);
-
-        double saldoMoedaAtualizado = moeda.getSaldo() - quantidade;
+        
+        double saldoMoedaAtualizado = saldoMoeda - quantidade;
         System.out.println("Moeda get saldo " + moeda.getSaldo());
             System.out.println("SALDO MOEDA ATUALIZADO " + saldoMoedaAtualizado);
         
