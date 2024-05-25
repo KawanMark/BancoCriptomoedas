@@ -12,6 +12,7 @@ import model.Carteira;
 import model.CompraInfo;
 import model.Cotacao;
 import model.Moedas;
+import utils.Util;
 import view.JanelaVenderCripto;
 
 public class ControllerVenderCripto {
@@ -47,6 +48,9 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
 
     Moedas moeda;
     double saldoMoeda = 0.0;
+    
+   
+ 
   
     // Determinar qual moeda foi selecionada e instanciar o objeto correspondente
     switch (moedaSelecionada) {
@@ -89,23 +93,27 @@ public CompraInfo venderMoeda(double quantidade, String moedaSelecionada, String
         double valorVenda = quantidade * cotacaoAtual;
   
 
-        // Calcular a taxa de venda
+        // Calcular a taxa venda
         double taxaVenda = moeda.calcularTaxaVenda(valorVenda);
         taxaVenda = Math.round(taxaVenda * 100.0) / 100.0;
+        
+        String taxaVendaStr = Util.formatDouble(taxaVenda);
+        taxaVenda = Util.parseDouble(taxaVendaStr);
+        
 
         double valorTotalVenda = valorVenda - taxaVenda;
         
-        // Atualize o saldo em reais e o saldo da criptomoeda
+        String valorTotalVendaStr = Util.formatDouble(valorTotalVenda);
+        valorTotalVenda = Util.parseDouble(valorTotalVendaStr);
+        
         double novoSaldoReais = carteira.getSaldoReais() + valorTotalVenda;
         carteira.setSaldoReais(novoSaldoReais);
         
         double saldoMoedaAtualizado = saldoMoeda - quantidade;
-        System.out.println("Moeda get saldo " + moeda.getSaldo());
-            System.out.println("SALDO MOEDA ATUALIZADO " + saldoMoedaAtualizado);
+  
         
         moeda.setSaldo(saldoMoedaAtualizado);
 
-        // Atualize o saldo no banco de dados
         try {
             clienteDAO.atualizarSaldo(cpf, "Reais", novoSaldoReais);
             clienteDAO.removerSaldoCripto(cpf, quantidade, moedaSelecionada);

@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import model.Carteira;
 import model.Cotacao;
 import java.sql.SQLException;
+import utils.Util;
 
 
 /**
@@ -234,10 +235,11 @@ public class JanelaVenderCripto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtVenderActionPerformed
 
     private void btVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVenderActionPerformed
-        // Obtém a quantidade digitada para venda
-    double quantidade;
+ 
+        double quantidade;
     try {
-        quantidade = Double.parseDouble(txtVender.getText());
+        quantidade = Util.parseDouble(txtVender.getText());
+
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "Digite um valor numérico válido para a venda.");
         return;
@@ -259,12 +261,13 @@ public class JanelaVenderCripto extends javax.swing.JFrame {
         moedaSelecionada = "Ripple";
     }
 
-        try{
-            String cpf = clienteDAO.obterCpfCliente();
-            c.venderMoeda(quantidade, moedaSelecionada, cpf);
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+    // Chama o método do controller para vender a moeda
+    try {
+        String cpf = clienteDAO.obterCpfCliente();
+        c.venderMoeda(quantidade, moedaSelecionada, cpf);
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
      
     }//GEN-LAST:event_btVenderActionPerformed
 

@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
+import utils.Util;
 
 /**
  *
@@ -120,14 +121,14 @@ public void adicionarSaldoCripto(String cpf, double quantidade, String moeda) {
     String nomeColuna = "saldo_" + moeda.toLowerCase(); // Obtém o nome da coluna com base na moeda
 
     // Limita a quantidade a 6 casas decimais
-    String quantidadeFormatada = String.format("%.6f", quantidade);
-    double quantidadeLimitada = Double.parseDouble(quantidadeFormatada);
+    String quantidadeStr = Util.formatDouble(quantidade);
+    quantidade = Util.parseDouble(quantidadeStr);
 
     // Constrói a query SQL para adicionar a quantidade ao saldo existente
     String sql = "UPDATE cliente SET " + nomeColuna + " = " + nomeColuna + " + ? WHERE cpf = ?";
     try {
         PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setDouble(1, quantidadeLimitada);
+        statement.setDouble(1, quantidade);
         statement.setString(2, cpf);
         statement.executeUpdate();
     } catch (SQLException e) {

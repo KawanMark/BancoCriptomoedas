@@ -30,13 +30,10 @@ public class ControllerSaldo {
         this.janelaSaldo = janelaSaldo;
     }
 
-    // Método para lidar com a ação do botão "Consultar Saldo"
     public void consultarSaldo() {
-        // Exibe uma caixa de diálogo para o usuário inserir CPF e senha
         String cpf = JOptionPane.showInputDialog(janelaSaldo, "Digite seu CPF:");
         String senha = JOptionPane.showInputDialog(janelaSaldo, "Digite sua senha:");
 
-        // Verifica se o CPF e a senha correspondem a um registro no banco de dados
         boolean credenciaisValidas = verificarCredenciais(cpf, senha);
 
         if (credenciaisValidas) {

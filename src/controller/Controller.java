@@ -68,6 +68,11 @@ public class Controller {
         String cpf = login.getTxtCPF().getText();
         String senha = login.getTxtSenha().getText();
         
+        if (senha.length() != 9) {
+        JOptionPane.showMessageDialog(login, "Senha necessária: 9 dígitos.");
+        return;
+    }
+        
         try {
             
             ResultSet res = clienteDAO.consultarPorCPFESenha(cpf, senha);
@@ -86,6 +91,11 @@ public class Controller {
         try {
             String cpf = login.getTxtCPF().getText();
             String senha = login.getTxtSenha().getText();
+            
+            if (senha.length() != 9) {
+            JOptionPane.showMessageDialog(login, "Senha necessária: 9 dígitos.");
+            return;
+        }
             long cpfLong = Long.parseLong(cpf);
             long senhaLong = Long.parseLong(senha);
             if (entrar(cpfLong, senhaLong)) {

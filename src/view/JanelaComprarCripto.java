@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import model.Carteira;
 import model.Cotacao;
+import utils.Util;
 
 /**
  *
@@ -253,18 +254,18 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btComprarActionPerformed
-     if (!rbBitcoin.isSelected() && !rbEthereum.isSelected() && !rbRipple.isSelected()) {
+    if (!rbBitcoin.isSelected() && !rbEthereum.isSelected() && !rbRipple.isSelected()) {
         JOptionPane.showMessageDialog(this, "Selecione uma criptomoeda para comprar.");
         return;
     }
+    String valorCompraStr = txtComprar.getText();
+    valorCompraStr = Util.normalizeNumberString(valorCompraStr);
+    
 
-
-     
-
-    // Obtém o valor digitado para compra
+    
     double valorCompra;
     try {
-        valorCompra = Double.parseDouble(txtComprar.getText());
+        valorCompra = Util.parseDouble(valorCompraStr);
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "Digite um valor numérico válido para a compra.");
         return;
@@ -275,7 +276,6 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Digite um valor válido para a compra.");
         return;
     }
-    
     
     // Obtém a criptomoeda selecionada
     String moedaSelecionada = "";
@@ -289,25 +289,18 @@ public class JanelaComprarCripto extends javax.swing.JFrame {
 
     // Obtém a cotação atual da criptomoeda selecionada
     double cotacaoAtual = cotacao.getCotacao(moedaSelecionada);
-    
-
 
     // Calcula a quantidade de criptomoeda a comprar
     double quantidade = valorCompra / cotacaoAtual;
-        System.out.println("-------------JANELA---------------------------");
-        System.out.println("JANELA QUANTIDADE" + quantidade);
-        System.out.println("VALOR DA COMPRAAA" + valorCompra) ;
-        System.out.println("COTACAO CADE" + cotacaoAtual);
-        
-
 
     // Chama o método do controller para comprar a moeda
-    try{
-            String cpf = clienteDAO.obterCpfCliente();
-            c.comprarMoeda(valorCompra, moedaSelecionada, cpf);
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+    try {
+        String cpf = clienteDAO.obterCpfCliente();
+        c.comprarMoeda(Util.formatDouble(valorCompra), moedaSelecionada, cpf);
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
 
     }//GEN-LAST:event_btComprarActionPerformed
 

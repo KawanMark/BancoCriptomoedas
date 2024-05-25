@@ -12,6 +12,7 @@ import model.Carteira;
 import model.CompraInfo;
 import model.Cotacao;
 import model.Moedas;
+import utils.Util;
 import view.JanelaComprarCripto;
 
 public class ControllerCriptomoeda {
@@ -21,8 +22,6 @@ public class ControllerCriptomoeda {
     private Carteira carteira;
     private Cotacao cotacao;
     private OperacoesDAO operacoesDAO;
-    
-    
 
     public ControllerCriptomoeda(Connection conn, JanelaComprarCripto janela, Carteira carteira, Cotacao cotacao) {
         this.conn = conn;
@@ -35,24 +34,23 @@ public class ControllerCriptomoeda {
 
     public void atualizarSaldoDaCarteira(String cpf) {
         try {
-            // Obtenha o saldo do banco de dados usando o CPF
             double saldoReais = clienteDAO.consultarSaldo(cpf, "Reais");
-
-            // Atualize o saldo na carteira
             carteira.setSaldoReais(saldoReais);
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro ao atualizar saldo da carteira.");
         }
     }
-    
-public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, String cpf) throws SQLException {
-    // Antes de prosseguir com a compra, atualizamos o saldo da carteira
+
+
+public CompraInfo comprarMoeda(String valorCompraStr, String moedaSelecionada, String cpf) throws SQLException {
     atualizarSaldoDaCarteira(cpf);
 
     Moedas moeda;
 
-    // Determinar qual moeda foi selecionada e instanciar o objeto correspondente
+    valorCompraStr = Util.normalizeNumberString(valorCompraStr);
+    double valorCompra = Util.parseDouble(valorCompraStr);
+
     switch (moedaSelecionada) {
         case "Bitcoin":
             moeda = carteira.getBitcoin();
@@ -68,31 +66,29 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
             JOptionPane.showMessageDialog(janela, "Moeda selecionada não reconhecida.");
             return null;
     }
-    
 
-    
     // Obter a cotação atual da moeda
     double cotacaoAtual = cotacao.getCotacao(moedaSelecionada);
 
     // Calcular a taxa de compra
     double taxaCompra = moeda.calcularTaxaCompra(valorCompra);
-    double taxaCompraArredondada = Math.floor(taxaCompra * 100) / 100;
-    //taxaCompra = Math.round(taxaCompra * 100.0) / 100.0;
+    String taxaCompraStr = Util.formatDouble(taxaCompra);
+    taxaCompraStr = Util.normalizeNumberString(taxaCompraStr);
+    taxaCompra = Util.parseDouble(taxaCompraStr);
 
-   
     // Subtrair a taxa do valor total da compra
     double valorTotalCompra = valorCompra - taxaCompra;
-    
+    String valorTotalCompraStr = Util.formatDouble(valorTotalCompra);
+    valorTotalCompraStr = Util.normalizeNumberString(valorTotalCompraStr);
+    valorTotalCompra = Util.parseDouble(valorTotalCompraStr);
+
     // Calcular a quantidade de moeda a comprar
     double quantidadeComprada = valorTotalCompra / cotacaoAtual;
-
+    String quantidadeCompradaStr = Util.formatDouble(quantidadeComprada);
+    quantidadeCompradaStr = Util.normalizeNumberString(quantidadeCompradaStr);
+    quantidadeComprada = Util.parseDouble(quantidadeCompradaStr);
     quantidadeComprada = quantidadeComprada - (taxaCompra / cotacaoAtual);
-    System.out.println(quantidadeComprada);
 
-
- 
-    System.out.println(carteira.getSaldoReais());
-    
     if (valorTotalCompra > carteira.getSaldoReais()) {
         JOptionPane.showMessageDialog(janela, "Saldo insuficiente para realizar a compra.");
         return null;
@@ -110,19 +106,11 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
             JOptionPane.showMessageDialog(janela, "Erro ao atualizar saldo no banco de dados.");
             return null;
         }
-        
 
-        //operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorCompra, taxaCompra, quantidadeComprada, cotacaoAtual);
-            
-        
-            double saldoBitcoinAtualizado = clienteDAO.consultarSaldo(cpf, "Bitcoin");
-            double saldoEthereumAtualizado = clienteDAO.consultarSaldo(cpf, "Ethereum");
-            double saldoRippleAtualizado = clienteDAO.consultarSaldo(cpf, "Ripple");
-            clienteDAO.atualizarSaldo(cpf, "Reais", novoSaldoReais);
-            clienteDAO.adicionarSaldoCripto(cpf, quantidadeComprada, moedaSelecionada);
-            operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorTotalCompra, taxaCompra, novoSaldoReais, saldoBitcoinAtualizado, saldoEthereumAtualizado, saldoRippleAtualizado, cotacaoAtual);
-
-        
+        double saldoBitcoinAtualizado = clienteDAO.consultarSaldo(cpf, "Bitcoin");
+        double saldoEthereumAtualizado = clienteDAO.consultarSaldo(cpf, "Ethereum");
+        double saldoRippleAtualizado = clienteDAO.consultarSaldo(cpf, "Ripple");
+        operacoesDAO.registrarOperacao(cpf, "Compra", moedaSelecionada, valorTotalCompra, taxaCompra, novoSaldoReais, saldoBitcoinAtualizado, saldoEthereumAtualizado, saldoRippleAtualizado, cotacaoAtual);
 
         // Adicionar detalhes da compra ao lblComprar
         String detalhesCompra = String.format("Compra realizada com sucesso!\nData e Hora: %s\nMoeda: %s\nQuantidade: %.8f\nCotação Atual: %.2f\nTaxa de Compra: %.2f\nSaldo Atual: %.2f\n",
@@ -130,7 +118,7 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
             moedaSelecionada,
             quantidadeComprada,
             cotacaoAtual,
-            taxaCompraArredondada, 
+            taxaCompra,
             novoSaldoReais
         );
         janela.getLblComprar().append(detalhesCompra);
@@ -140,3 +128,4 @@ public CompraInfo comprarMoeda(double valorCompra, String moedaSelecionada, Stri
     return new CompraInfo("Compra realizada com sucesso!", valorCompra, moedaSelecionada);
 }
 }
+
